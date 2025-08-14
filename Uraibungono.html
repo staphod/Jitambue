@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wewe ni mraibu wa punyeto na video za ngono kwa asilimia ngapi?</title>
+  <meta name="description" content="Jaribio la kujitathmini kuhusu uraibu wa punyeto na video za ngono. Pata matokeo papo hapo kwa asilimia, pamoja na ushauri wa kuchukua hatua." />
+  <style>
+    :root{
+      --bg:#0b1220; --bg2:#0f172a; --card:#0b1220; --muted:#94a3b8; --text:#e5e7eb;
+      --line:#1f2937; --accent:#22c55e; --warn:#f59e0b; --danger:#ef4444; --link:#38bdf8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Noto Sans,Arial; color:var(--text); background:linear-gradient(180deg,var(--bg),var(--bg2));}
+    .wrap{max-width:980px; margin:0 auto; padding:20px;}
+    header.hero{position:relative; border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.35);}
+    .hero img{width:100%; height:260px; object-fit:cover; display:block; filter:brightness(.65) saturate(1.1);} 
+    .hero .overlay{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:18px; background:linear-gradient(180deg,rgba(0,0,0,0) 20%,rgba(0,0,0,.45) 70%);} 
+    .hero h1{margin:0; font-size:clamp(1.4rem,2.6vw,2rem);} 
+    .hero p{margin:.4rem 0 0; color:#cbd5e1}.card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; margin-top:16px}
+.lead{color:var(--muted)}
+.notice{font-size:.92rem; color:#cbd5e1; background:#07101e; border:1px dashed #334155; padding:12px; border-radius:12px}
+
+.meta{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 12px}
+.tag{border:1px solid #334155; color:#cbd5e1; padding:4px 10px; border-radius:999px; font-size:.82rem}
+
+.progress{height:10px; background:#091120; border:1px solid var(--line); border-radius:999px; overflow:hidden;}
+.bar{height:100%; width:0%; background:linear-gradient(90deg,#22c55e,#0ea5e9)}
+
+.q{padding:14px; border:1px solid var(--line); border-radius:12px; margin:14px 0; background:#0a1324}
+.q h3{margin:0 0 8px; font-size:1rem}
+.opts{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px}
+.opt{display:flex; align-items:center; gap:8px; border:1px solid #334155; border-radius:10px; padding:10px; cursor:pointer; user-select:none}
+.opt input{display:none}
+.opt.active{background:#0ea5e9; border-color:#0284c7; color:white}
+
+.foot{display:flex; gap:12px; flex-wrap:wrap; justify-content:space-between; align-items:center; margin-top:12px}
+button{background:var(--accent); color:#052e12; border:none; padding:12px 18px; border-radius:12px; font-weight:700; cursor:pointer}
+button.secondary{background:transparent; color:var(--muted); border:1px solid #334155}
+button[disabled]{opacity:.6; cursor:not-allowed}
+
+.result{display:none; margin-top:16px; border:1px solid var(--line); border-radius:14px; padding:16px; background:#07101e}
+.score-badge{display:inline-block; padding:6px 10px; border-radius:999px; background:#0ea5e9; color:#fff; font-weight:800}
+.risk{font-weight:800}
+
+.grid{display:grid; gap:12px}
+@media(min-width:800px){.grid{grid-template-columns:2fr 1fr}}
+
+.floating-start{position:fixed; right:18px; bottom:18px; z-index:9999; background:#0ea5e9; color:#fff; padding:12px 16px; border-radius:999px; text-decoration:none; font-weight:800; box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.floating-start:hover{transform:translateY(-1px)}
+
+a{color:var(--link)}
+
+  </style>
+</head>
+<body>
+  <a href="#quiz" class="floating-start">Anza Jaribio</a>  <div class="wrap">
+    <header class="hero">
+      <!-- Unaweza kubadilisha picha hii kwa neno kuu (keywords) salama: technology, focus, screen, night -->
+      <img src="https://source.unsplash.com/1600x900/?focus,night,screen" alt="Picha ya mtu akitazama skrini usiku"> 
+      <div class="overlay">
+        <h1>Wewe ni mraibu wa punyeto na video za ngono kwa asilimia ngapi?</h1>
+        <p>Jibu maswali yaliyo chini kwa uaminifu. Utapata matokeo papo hapo pamoja na ushauri wa kuchukua hatua.</p>
+      </div>
+    </header><section class="card">
+  <p class="lead"><strong>Kwa nini jaribio hili?</strong> Watu wengi hukwama kwenye mzunguko wa picha/video za ngono na punyeto bila kutambua athari zake kwa ubongo, malengo, mahusiano na imani. Jaribio hili la elimu linakusaidia <em>kujipima</em>, kuona mwelekeo wa hatari, na kupata <em>hatua rahisi za kubadilika</em>.</p>
+  <div class="meta">
+    <span class="tag">Muda: ~6–10 dk</span>
+    <span class="tag">Maswali: <span id="q-count">—</span></span>
+    <span class="tag">Lugha: Kiswahili</span>
+  </div>
+  <div class="notice">
+    <strong>Kanusho & Faragha:</strong> Hili si zoezi la utambuzi wa kitabibu, bali elimu binafsi. Hatuokoti, kuhifadhi, wala kutuma majibu yako. Ikiwa unahisi mateso makubwa ya kisaikolojia au tabia isiyodhibitika, tafuta msaada wa mtaalamu au mshauri wa kiroho/ndoa anayeaminika.
+  </div>
+</section>
+
+<section id="quiz" class="card">
+  <div class="progress" aria-label="Maendeleo ya kujibu"><div id="bar" class="bar"></div></div>
+  <div id="questions"></div>
+  <div class="foot">
+    <div style="display:flex; gap:8px; align-items:center">
+      <button id="submit" disabled>Onyesha Matokeo</button>
+      <button id="reset" class="secondary" type="button">Anza Upya</button>
+    </div>
+    <small class="lead">Jibu kila swali kwa uaminifu; hakuna jibu "sahihi" au "si sahihi".</small>
+  </div>
+
+  <div id="result" class="result" role="region" aria-live="polite"></div>
+</section>
+
+<section class="grid">
+  <div class="card">
+    <h2>Msaada wa haraka</h2>
+    <ul>
+      <li><strong>Badilisha mazingira:</strong> weka vikwazo kwa kifaa (blockers, toa notifications, lala kifaa chumbani kingine).</li>
+      <li><strong>Badilisha ratiba:</strong> epuka kipindi cha vichocheo (usiku ukiwa peke yako); badala yake, fanya mazoezi, oga baridi, somo fupi la kiroho.</li>
+      <li><strong>Andika kichocheo → wazo → kitendo → hisia → matokeo</strong> kila linapotokea. Hii huleta mwamko (awareness).</li>
+      <li><strong>Sema ukweli na mtu wa kuaminika</strong> (accountability).</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>Soma zaidi kwenye Uhuru</h2>
+    <p>Tembelea makala zetu za kina kuhusu uraibu wa ngono, mbinu za CBT, neuroplasticity, na uponyaji wa tabia:</p>
+    <ul>
+      <li><a href="https://uhurusw.blogspot.com/" target="_blank" rel="noopener">Uhuru – Msingi wa Saikolojia kwa Kila Mtu</a></li>
+    </ul>
+  </div>
+</section>
+
+  </div>  <script>
+    // ===== Muundo wa alama =====
+    // Kila chaguo lina alama 0–4 (Kamwe → Daima). Tutageuza jumla kuwa asilimia ya hatari.
+    // Pia tunapima vikoa (domains) ili kutoa ushauri mahususi.
+
+    const SCALE = [
+      { label: 'Kamwe', v: 0 },
+      { label: 'Mara chache', v: 1 },
+      { label: 'Wakati mwingine', v: 2 },
+      { label: 'Mara nyingi', v: 3 },
+      { label: 'Karibu kila siku / Daima', v: 4 },
+    ];
+
+    // Maswali (≥20). domain: Frequency, Control, Impact, Triggers, Recovery
+    const QUESTIONS = [
+      { t: 'Ninatazama video/picha za ngono hata pasipo kupanga.', d: 'Frequency' },
+      { t: 'Ninajikuta nikifanya punyeto ili kuondoa msongo/uchovu/unyong’onyevu.', d: 'Triggers' },
+      { t: 'Nimejaribu kupunguza au kuacha lakini nashindwa kudumu.', d: 'Control' },
+      { t: 'Natumia muda mrefu mtandaoni nikitafuta maudhui ya ngono.', d: 'Frequency' },
+      { t: 'Nimewahi kubadilisha mipango muhimu ili kutazama au kujichua.', d: 'Impact' },
+      { t: 'Baada ya tendo, nahisi hatia/majuto/kujidharau.', d: 'Impact' },
+      { t: 'Ninahifadhi au kuficha maudhui ya ngono kwenye kifaa changu.', d: 'Control' },
+      { t: 'Ninajitenga na watu ili niwe peke yangu kwa ajili ya maudhui haya.', d: 'Impact' },
+      { t: 'Vichocheo kama upweke, kuchoka, au mfadhaiko hunipeleka moja kwa moja kutazama.', d: 'Triggers' },
+      { t: 'Nimeongeza “kiwango” au utafutaji wa mambo mapya ya kuchochea.', d: 'Frequency' },
+      { t: 'Ninaahirisha kazi/shule/ibada kutokana na tabia hii.', d: 'Impact' },
+      { t: 'Ninajikuta nikirudia mara kadhaa kwa siku/wezi.', d: 'Frequency' },
+      { t: 'Nashindwa kuacha nikiwa nimeamua kuacha (self-control inaniangusha).', d: 'Control' },
+      { t: 'Ninaghairi mikutano/miadi kwa sababu ya kutazama au kujichua.', d: 'Impact' },
+      { t: 'Nimeweka siri kubwa kuhusu tabia hii kwa watu wa karibu.', d: 'Control' },
+      { t: 'Ninashindwa kulala mapema kwa sababu ya maudhui haya.', d: 'Impact' },
+      { t: 'Ninaanza “kuwasha” mara tu ninapokaa na kifaa bila shughuli ya maana.', d: 'Triggers' },
+      { t: 'Nimewahi kutumia pesa (data, subscriptions) kupita kiasi kwa ajili ya maudhui haya.', d: 'Impact' },
+      { t: 'Ninapojaribu kuacha, napata hamu kali/kuvutwa kurudi (cravings).', d: 'Control' },
+      { t: 'Ninapotazama, huwa ni kwa muda mrefu kuliko nilivyokusudia.', d: 'Control' },
+      { t: 'Namulia vichocheo kwa makusudi (kufuatilia akaunti/hashtags fulani).', d: 'Triggers' },
+      { t: 'Ninaona kiwango cha kichocheo kinahitaji kuongezeka ili nipate msisimko uleule.', d: 'Frequency' },
+      { t: 'Tabia hii imeathiri mawasiliano/ukaribu kwenye mahusiano.', d: 'Impact' },
+      { t: 'Ninajihusisha na “binges” (mlolongo mrefu wa kutazama).', d: 'Frequency' },
+      { t: 'Nimewahi kuona mawazo ya kujiumiza/unyong’onyo yakiongezeka baada ya matukio haya.', d: 'Impact' },
+      { t: 'Nimeweka au kufikiria kuweka mipaka/vizuizi lakini huiondoa baadae.', d: 'Control' },
+      { t: 'Kukosa mtandao au kifaa hunifanya nisikie wasiwasi/hasira/kuhangaika.', d: 'Triggers' },
+      { t: 'Ninapata hisia kwamba “siwezi kuishi bila hii” au “ndio faraja yangu kuu”.', d: 'Control' },
+      { t: 'Ninaahirisha ndoto/malengo yangu kwa sababu ya matumizi ya muda kwenye tabia hii.', d: 'Impact' },
+      { t: 'Ninapochoka/kukasirika/kutengwa, huu ndio mfumuko wangu wa kwanza.', d: 'Triggers' },
+    ];
+
+    const DOM = {
+      qWrap: document.getElementById('questions'),
+      submit: document.getElementById('submit'),
+      reset: document.getElementById('reset'),
+      result: document.getElementById('result'),
+      bar: document.getElementById('bar'),
+      qCount: document.getElementById('q-count')
+    };
+
+    DOM.qCount.textContent = QUESTIONS.length;
+
+    function render(){
+      DOM.qWrap.innerHTML = '';
+      QUESTIONS.forEach((q, idx) => {
+        const el = document.createElement('div');
+        el.className = 'q';
+        el.innerHTML = `
+          <h3>${idx+1}. ${q.t}</h3>
+          <div class="opts" role="group" aria-label="Chaguo">
+            ${SCALE.map((s,i)=>`
+              <label class="opt" data-q="${idx}" data-v="${s.v}" data-label="${s.label}">
+                <input type="radio" name="q_${idx}" value="${s.v}">
+                <span>${i+1}. ${s.label}</span>
+              </label>
+            `).join('')}
+          </div>
+        `;
+        DOM.qWrap.appendChild(el);
+      });
+
+      DOM.qWrap.addEventListener('click', (e)=>{
+        const opt = e.target.closest('.opt');
+        if(!opt) return;
+        const qIndex = opt.getAttribute('data-q');
+        DOM.qWrap.querySelectorAll(`label.opt[data-q="${qIndex}"]`).forEach(n=>n.classList.remove('active'));
+        opt.classList.add('active');
+        const input = opt.querySelector('input');
+        input.checked = true;
+        updateProgress();
+      });
+
+      DOM.submit.addEventListener('click', onSubmit);
+      DOM.reset.addEventListener('click', resetAll);
+
+      updateProgress();
+    }
+
+    function answers(){
+      return QUESTIONS.map((_, idx)=>{
+        const checked = DOM.qWrap.querySelector(`input[name="q_${idx}"]:checked`);
+        return checked ? Number(checked.value) : null;
+      });
+    }
+
+    function updateProgress(){
+      const vals = answers();
+      const answered = vals.filter(v=>v!==null).length;
+      const pct = Math.round((answered/QUESTIONS.length)*100);
+      DOM.bar.style.width = pct+'%';
+      DOM.submit.disabled = answered !== QUESTIONS.length;
+    }
+
+    function summarizeByDomain(vals){
+      // Rejesha wastani na asilimia kwa kila domain
+      const domains = {};
+      vals.forEach((v, i)=>{
+        const d = QUESTIONS[i].d;
+        if(!domains[d]) domains[d] = { sum:0, count:0 };
+        domains[d].sum += v;
+        domains[d].count += 1;
+      });
+      const out = {};
+      Object.keys(domains).forEach(k=>{
+        const {sum,count} = domains[k];
+        const pct = Math.round((sum/(count*4))*100);
+        out[k] = pct;
+      });
+      return out;
+    }
+
+    function riskLabel(pct){
+      if(pct <= 20) return {label:'Hatari ndogo', color:'#22c55e', advice:'Endelea kulinda mipaka yako. Weka ratiba thabiti ya usingizi, epuka bodi za vichocheo, na tumia “rules” za kifaa (Do Not Disturb, app limits).'};
+      if(pct <= 40) return {label:'Hatari ya kati', color:'#a3e635', advice:'Anza mpango wa siku 30 bila maudhui ya ngono, weka vizuizi (blockers), na tafuta mwenzi wa uwajibikaji (accountability partner).'};
+      if(pct <= 60) return {label:'Hatari iliyoimarika', color:'#f59e0b', advice:'Tumia mbinu za CBT (andika vichocheo na uzivunje), fanya detox ya mitandao 14–30 siku, jumuisha mazoezi ya nguvu + kuoga baridi + exposure ya jua asubuhi.'};
+      if(pct <= 80) return {label:'Hatari kubwa', color:'#fb7185', advice:'Tafuta kikundi cha msaada/ushauri, fungua mipaka madhubuti nyumbani/kazini, ondoa programu zenye vichocheo, panga ratiba mbadala ya jioni (mazoezi, kusoma, maombi).'};
+      return {label:'Hatari kali sana', color:'#ef4444', advice:'Tafuta msaada wa kitaalamu mara moja (mshauri/terapisti). Fanya programu ya urekebishaji tabia, punguza upweke, na unda mazingira salama (simu mbali na chumba cha kulala).'};
+    }
+
+    function onSubmit(){
+      const vals = answers();
+      if(vals.some(v=>v===null)) return;
+      const sum = vals.reduce((a,b)=>a+b,0);
+      const max = QUESTIONS.length * 4; // 0..4
+      const pct = Math.round((sum / max) * 100);
+      const risk = riskLabel(pct);
+      const byDomain = summarizeByDomain(vals);
+
+      const domainTips = {
+        'Frequency': 'Punguza marudio kwa kupanga ratiba ngumu ya masaa ya kifaa (curfew), zima intaneti usiku, na weka shughuli mbadala kabla ya kulala.',
+        'Control': 'Jifunze “urge surfing”: pumua 4-7-8, chelewesha kwa dakika 10, fanya mazoezi mafupi (20 squats) hadi hamu ipungue.',
+        'Impact': 'Rekebisha uhusiano/mawasiliano: zungumza ukweli, weka mipaka, na tafuta tiba ya wanandoa/ushauri wa mahusiano inapobidi.',
+        'Triggers': 'Tambua vichocheo vyako (upweke, kuchoka, stress). Badilisha mazingira: kaa maeneo ya umma, tumia app blockers, punguza akaunti zenye vichocheo.'
+      };
+
+      const tips = Object.keys(byDomain).map(k=>{
+        return `<li><strong>${k}:</strong> ${byDomain[k]}% — ${domainTips[k]||''}</li>`
+      }).join('');
+
+      DOM.result.style.display = 'block';
+      DOM.result.innerHTML = `
+        <h2>Matokeo Yako</h2>
+        <p>Alama yako ya hatari: <span class="score-badge">${pct}%</span> <span class="risk" style="color:${risk.color}">(${risk.label})</span></p>
+        <p><strong>Maelezo:</strong> Asilimia inaonyesha makadirio ya hatari kulingana na majibu yako. Kadri asilimia inavyoongezeka, ndivyo uwezekano wa utegemezi usiodhibitika unavyoongezeka.</p>
+        <h3>Ushauri wa Haraka</h3>
+        <p>${risk.advice}</p>
+        <h3>Muhtasari kwa Maeneo</h3>
+        <ul>${tips}</ul>
+        <div style="margin-top:10px">
+          <a class="score-badge" id="copyShare" href="#">Nakili Matokeo</a>
+        </div>
+        <p class="lead" style="margin-top:10px">Soma zaidi kwenye <a href="https://uhurusw.blogspot.com/" target="_blank" rel="noopener">Uhuru</a> kuhusu mbinu za kubadili tabia na afya ya uzazi wa akili.</p>
+      `;
+
+      document.getElementById('copyShare').addEventListener('click', (e)=>{
+        e.preventDefault();
+        const text = `Matokeo ya Jaribio (Uraibu wa ngono/punyeto): ${pct}% – ${risk.label}.`;
+        navigator.clipboard?.writeText(text);
+        e.target.textContent = 'Imenakiliwa!';
+        setTimeout(()=> e.target.textContent = 'Nakili Matokeo', 1500);
+      });
+
+      DOM.result.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    function resetAll(){
+      document.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);
+      document.querySelectorAll('.opt').forEach(o=>o.classList.remove('active'));
+      DOM.result.style.display='none';
+      DOM.result.innerHTML='';
+      updateProgress();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    render();
+  </script></body>
+</html>
