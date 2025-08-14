@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jitambue – Jaribio la EQ (Mfano)</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #22c55e;
+      --danger: #ef4444;
+      --link: #38bdf8;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Noto Sans", Cantarell, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji"; margin: 0; background: linear-gradient(180deg, #0b1220, #0f172a); color: var(--text); }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 24px; }
+    .card { background: var(--card); border: 1px solid #1f2937; border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+    h1 { font-size: 1.6rem; margin: 0 0 6px; }
+    p.lead { color: var(--muted); margin-top: 0; }
+    .meta { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 20px; }
+    .tag { font-size: .8rem; border: 1px solid #334155; padding: 4px 10px; border-radius: 999px; color: #cbd5e1; }
+    .q { padding: 16px; border: 1px solid #1f2937; border-radius: 12px; margin-bottom: 14px; background: #0b1220; }
+    .q h3 { margin: 0 0 10px; font-size: 1rem; }
+    .opts { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 6px; }
+    .opt { display: flex; align-items: center; justify-content: center; border: 1px solid #334155; border-radius: 10px; padding: 10px 6px; cursor: pointer; user-select: none; text-align: center; font-size: .92rem; transition: transform .05s ease; }
+    .opt:hover { transform: translateY(-1px); }
+    .opt input { display: none; }
+    .opt.active { background: #0ea5e9; border-color: #0284c7; color: white; }
+    .foot { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; margin-top: 18px; }
+    button { background: var(--accent); color: #052e12; border: none; padding: 12px 18px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+    button[disabled] { opacity: .5; cursor: not-allowed; }
+    .reset { background: transparent; color: var(--muted); border: 1px solid #334155; }
+    .progress { height: 10px; background: #0b1220; border:1px solid #1f2937; border-radius: 999px; overflow: hidden; }
+    .bar { height: 100%; width: 0%; background: linear-gradient(90deg, #22c55e, #0ea5e9); }.result { margin-top: 18px; padding: 18px; border: 1px solid #1f2937; border-radius: 14px; background: #07101e; display: none; }
+.result h2 { margin-top: 0; }
+.score-badge { display: inline-block; padding: 6px 10px; border-radius: 999px; background: #0ea5e9; color: white; font-weight: 700; }
+.cta { margin-top: 10px; }
+.cta a { color: var(--link); text-decoration: none; border-bottom: 1px dashed var(--link); }
+
+.notice { font-size: .85rem; color: var(--muted); margin-top: 10px; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .opts{ grid-template-columns: 1fr; }
+  .opt{ justify-content:flex-start; padding: 10px 12px; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1 id="quiz-title">Jaribio la Uelewa wa Hisia (EQ) – Fupi</h1>
+      <p class="lead" id="quiz-desc">Pima haraka uwezo wako wa kutambua, kudhibiti na kutumia hisia zako na za wengine. Chagua jibu linalokufaa zaidi.</p>
+      <div class="meta">
+        <span class="tag">Muda: ~3–5 dk</span>
+        <span class="tag">Maswali: <span id="q-count">10</span></span>
+        <span class="tag">Lugha: Swahili</span>
+      </div><div class="progress" aria-label="Maendeleo ya kujibu">
+    <div class="bar" id="bar"></div>
+  </div>
+
+  <div id="questions"></div>
+
+  <div class="foot">
+    <button id="submit" disabled>Onyesha Matokeo</button>
+    <button id="reset" class="reset" type="button">Anza Upya</button>
+  </div>
+
+  <div class="result" id="result" role="region" aria-live="polite"></div>
+
+  <p class="notice">
+    <strong>Kanusho:</strong> Jaribio hili ni la elimu tu, si utambuzi wa kitabibu. Ikiwa unahangaishwa na afya ya akili, tafuta ushauri kutoka kwa mtaalamu. 
+  </p>
+</div>
+
+  </div>  <script>
+    // ======= KUSANIFU: Tumia kiolezo hiki kuunda majaribio mengi =======
+    // Badili 'QUIZ' hapa chini kuunda jaribio jipya. Unaweza kuweka faili tofauti
+    // au kuingiza data kupitia JSON. Mantiki ya uwasilishaji na matokeo iko tayari.
+
+    const QUIZ = {
+      id: "eq_fupi",
+      title: "Jaribio la Uelewa wa Hisia (EQ) – Fupi",
+      description: "Pima haraka uwezo wako wa kutambua, kudhibiti na kutumia hisia zako na za wengine.",
+      ctaLink: "https://uhurusw.blogspot.com/", // kiungo cha kusoma zaidi kwenye blogu yako
+      ctaText: "Soma makala zaidi kuhusu EQ kwenye Uhuru »",
+      scaleLabels: [
+        "Sikubaliani Kabisa",
+        "Sikubaliani",
+        "Sina Uhakika",
+        "Nakubali",
+        "Nakubali Sana"
+      ],
+      // Thamani 1–5 kwa kila chaguo juu ya Likert
+      questions: [
+        { t: "Ninatambua kwa urahisi ninapokuwa na hasira, huzuni au furaha.", key: "A" },
+        { t: "Ninaweza kutuliza hisia zangu hata mambo yanapokwenda sivyotarajiwa.", key: "B" },
+        { t: "Naujua mwitikio wa mwili wangu (mf. mapigo ya moyo) ninapopata hisia kali.", key: "C" },
+        { t: "Nausikiliza mtazamo wa wengine kabla ya kutoa uamuzi.", key: "D" },
+        { t: "Ninaweza kuomba msamaha au kukiri kosa bila kusukumwa.", key: "E" },
+        { t: "Natafsiri vizuri ishara zisizo za maneno (uso, sauti, lugha ya mwili).", key: "F" },
+        { t: "Ninaweza kuahirisha raha ya sasa ili kufikia lengo la muda mrefu.", key: "G" },
+        { t: "Nadhibiti mazungumzo magumu bila kuripuka au kukimbia.", key: "H" },
+        { t: "Ninajipa maneno ya kujitia moyo badala ya kujishambulia.", key: "I" },
+        { t: "Watu huniambia naheshimu hisia zao hata nikikosa kukubaliana nao.", key: "J" }
+      ],
+      // Ufafanuzi wa alama na nasaha fupi
+      resultBands: [
+        {
+          min: 10, max: 24, label: "EQ ya Chini",
+          advice: "Anza kwa kujifunza uelewa wa nafsi: andika hisia zako kila siku, tumia mbinu za kupumua (4-7-8), na jifunze kusikiliza kabla ya kujibu."
+        },
+        {
+          min: 25, max: 37, label: "EQ ya Kati",
+          advice: "Una msingi mzuri. Boresha kwa kufanya mazoezi ya kuahirisha hasira, kuomba mrejeo (feedback), na kutafuta maana ya hisia zako kabla ya kuchukua hatua."
+        },
+        {
+          min: 38, max: 50, label: "EQ ya Juu",
+          advice: "Vizuri sana! Endelea kukuza huruma (empathy), ujasiri wa kutoa mipaka, na kuwa kocha wa kihisia kwa wengine."
+        }
+      ]
+    };
+
+    // ======= Mantiki ya Uwasilishaji =======
+    const qsWrap = document.getElementById('questions');
+    const submitBtn = document.getElementById('submit');
+    const resetBtn = document.getElementById('reset');
+    const resultBox = document.getElementById('result');
+    const bar = document.getElementById('bar');
+
+    function render() {
+      document.getElementById('quiz-title').textContent = QUIZ.title;
+      document.getElementById('quiz-desc').textContent = QUIZ.description;
+      document.getElementById('q-count').textContent = QUIZ.questions.length;
+
+      qsWrap.innerHTML = '';
+      QUIZ.questions.forEach((q, idx) => {
+        const qEl = document.createElement('div');
+        qEl.className = 'q';
+        qEl.innerHTML = `
+          <h3>${idx+1}. ${q.t}</h3>
+          <div class="opts" role="group" aria-label="Chaguo">
+            ${QUIZ.scaleLabels.map((lbl, i) => `
+              <label class="opt" data-q="${idx}" data-v="${i+1}">
+                <input type="radio" name="q_${idx}" value="${i+1}" />
+                <span>${i+1}. ${lbl}</span>
+              </label>
+            `).join('')}
+          </div>
+        `;
+        qsWrap.appendChild(qEl);
+      });
+
+      // Event delegation for options
+      qsWrap.addEventListener('click', (e) => {
+        const opt = e.target.closest('.opt');
+        if (!opt) return;
+        const qIndex = opt.getAttribute('data-q');
+        const v = opt.getAttribute('data-v');
+        // mark active
+        const group = qsWrap.querySelectorAll(`label.opt[data-q="${qIndex}"]`);
+        group.forEach(n => n.classList.remove('active'));
+        opt.classList.add('active');
+        const input = opt.querySelector('input');
+        input.checked = true;
+        updateProgress();
+      });
+
+      submitBtn.addEventListener('click', onSubmit);
+      resetBtn.addEventListener('click', resetAll);
+
+      updateProgress();
+    }
+
+    function getAnswers() {
+      const values = [];
+      QUIZ.questions.forEach((_, idx) => {
+        const checked = qsWrap.querySelector(`input[name="q_${idx}"]:checked`);
+        values.push(checked ? Number(checked.value) : null);
+      });
+      return values;
+    }
+
+    function updateProgress() {
+      const vals = getAnswers();
+      const answered = vals.filter(v => v !== null).length;
+      const pct = Math.round((answered / QUIZ.questions.length) * 100);
+      bar.style.width = pct + '%';
+      submitBtn.disabled = answered !== QUIZ.questions.length;
+    }
+
+    function bandFor(score) {
+      return QUIZ.resultBands.find(b => score >= b.min && score <= b.max);
+    }
+
+    function onSubmit() {
+      const vals = getAnswers();
+      if (vals.some(v => v === null)) return;
+      const score = vals.reduce((a,b) => a + b, 0);
+      const band = bandFor(score);
+      const percent = Math.round(((score - QUIZ.resultBands[0].min) / (QUIZ.questions.length * 5 - QUIZ.resultBands[0].min)) * 100);
+
+      resultBox.style.display = 'block';
+      resultBox.innerHTML = `
+        <h2>Matokeo Yako</h2>
+        <p>Alama: <span class="score-badge">${score} / ${QUIZ.questions.length * 5}</span></p>
+        <p><strong>Ufafanuzi:</strong> ${band ? band.label : 'Matokeo hayajapatikana'}</p>
+        <p><strong>Nasaha:</strong> ${band ? band.advice : ''}</p>
+        <div class="cta">
+          <a target="_blank" rel="noopener" href="${QUIZ.ctaLink}">${QUIZ.ctaText}</a>
+        </div>
+      `;
+      // Scroll to result
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function resetAll() {
+      document.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+      document.querySelectorAll('.opt').forEach(o => o.classList.remove('active'));
+      resultBox.style.display = 'none';
+      resultBox.innerHTML = '';
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    render();
+  </script></body>
+</html>
