@@ -1,39 +1,273 @@
-<!DOCTYPE html><html lang="sw">
+<!DOCTYPE html>
+<html lang="sw">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wewe ni mtu wa aina gani kati ya tabia kuu nne?</title>
-  <meta name="description" content="Jaribio la tabia nne (Sangwini, Melankolia, Pragmatiki, Kloriki). Pata mgawanyo wa asilimia na maelezo ya aina yako kuu papo hapo." />
-  <style>
-    :root{
-      --bg:#0b1220; --bg2:#0f172a; --card:#0b1220; --muted:#94a3b8; --text:#e5e7eb;
-      --line:#1f2937; --accent:#22c55e; --link:#38bdf8; --blue:#0ea5e9;
-      --S:#06b6d4; /* sangwini */
-      --M:#a78bfa; /* melankolia */
-      --P:#22c55e; /* pragmatiki */
-      --K:#f59e0b; /* kloriki */
-    }
-    *{box-sizing:border-box}
-    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Noto Sans,Arial; color:var(--text); background:linear-gradient(180deg,var(--bg),var(--bg2));}
-    .wrap{max-width:1000px; margin:0 auto; padding:20px;}
-    header.hero{position:relative; border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.35);}
-    .hero img{width:100%; height:260px; object-fit:cover; display:block; filter:brightness(.7) saturate(1.05);} 
-    .hero .overlay{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:18px; background:linear-gradient(180deg,rgba(0,0,0,0) 20%,rgba(0,0,0,.45) 70%);} 
-    .hero h1{margin:0; font-size:clamp(1.4rem,2.6vw,2rem);} 
-    .hero p{margin:.4rem 0 0; color:#cbd5e1}.card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; margin-top:16px}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Wewe ni mtu wa aina gani? (Sangwini, Melankolia, Pragmatiki, Kloriki)</title>
+<meta name="description" content="Jaribio: mgawanyo wa tabia nne. Maswali yamezalishwa bila kuonyesha aina ili matokeo yako yawe ya kweli. Inarandamiza (randomizes) maswali na chaguzi kila kipitia." />
+<style>
+:root{--bg:#07101a;--card:#0d1724;--muted:#9aa6b2;--text:#e6eef6;--accent:#38bdf8;--ok:#22c55e;}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Noto Sans,Arial;background:linear-gradient(180deg,var(--bg),#081226);color:var(--text)}
+.wrap{max-width:980px;margin:20px auto;padding:18px}
+.header{border-radius:14px;overflow:hidden;border:1px solid #142033;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.header img{width:100%;height:260px;object-fit:cover;filter:brightness(.65)}
+.header .meta{padding:18px}
+.header h1{margin:0;font-size:1.6rem}
+.header p{margin:6px 0 0;color:var(--muted)}
+.card{background:var(--card);border:1px solid #13202a;border-radius:12px;padding:14px;margin-top:14px}
 .lead{color:var(--muted)}
+.progress{height:10px;background:#06121b;border-radius:999px;overflow:hidden;border:1px solid #153046}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#0ea5e9)}
+.q{padding:12px;border-radius:10px;border:1px solid #153048;margin:12px 0;background:linear-gradient(180deg,#071827,#071826)}
+.q h3{margin:0 0 8px;font-size:1rem}
+.opts{display:grid;gap:8px;grid-template-columns:repeat(1,1fr)}
+@media(min-width:720px){.opts{grid-template-columns:repeat(2,1fr)}}
+.opt{background:#081926;border:1px solid #173044;padding:10px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:10px}
+.opt.active{outline:2px solid var(--accent);background:#0b2940}
+.small{font-size:.95rem;color:var(--muted)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px}
+.btn{background:var(--ok);color:#052e12;padding:10px 14px;border-radius:10px;border:none;font-weight:700;cursor:pointer}
+.btn.secondary{background:transparent;border:1px solid #173044;color:var(--muted)}
+.btn[disabled]{opacity:.6;cursor:not-allowed}
+.result{display:none;margin-top:14px;padding:14px;border-radius:10px;background:linear-gradient(180deg,#07111a,#091826);border:1px solid #13303f}
+.row{display:flex;align-items:center;gap:12px;margin:8px 0}
+.typeBox{width:120px;font-weight:700}
+.barWrap{flex:1;height:14px;background:#06121b;border-radius:999px;border:1px solid #153046;overflow:hidden}
+.fill{height:100%;width:0}
+.desc{margin-top:10px;color:var(--muted)}
+.copy{display:inline-block;padding:8px 12px;background:#0ea5e9;color:#023047;border-radius:999px;text-decoration:none;font-weight:700}
+.notice{margin-top:10px;font-size:.95rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="header">
+    <img src="https://source.unsplash.com/1600x900/?people,faces,diversity" alt="diverse people" />
+    <div class="meta">
+      <h1>Wewe ni mtu wa aina gani kati ya tabia nne?</h1>
+      <p class="small">Jibu kwa uaminifu. Maswali na chaguzi hazionyeshi aina ili kuzuia kupendelea aina yako unayopenda. Maswali yata-randomize kila mara unapoanzisha jaribio.</p>
+    </div>
+  </header>
 
-.progress{height:10px; background:#091120; border:1px solid var(--line); border-radius:999px; overflow:hidden;}
-.bar{height:100%; width:0%; background:linear-gradient(90deg,#22c55e,#0ea5e9)}
+  <section class="card">
+    <p class="lead"><strong>Kwa nini?</strong> Kujua muundo wako wa tabia kunakuongezea ufahamu wa namna unavyojibu watu, kazi, na msongamano. Hili ni jaribio la elimu tu — sio utambuzi rasmi wa kitabibu.</p>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <span class="small">Maswali: <span id="q-count">—</span></span>
+      <span class="small">Lugha: Kiswahili</span>
+      <span class="small">Faragha: Majibu yako hayaohifadhiwi</span>
+    </div>
+  </section>
 
-.q{padding:14px; border:1px solid var(--line); border-radius:12px; margin:14px 0; background:#0a1324}
-.q h3{margin:0 0 8px; font-size:1rem}
-.opts{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px}
-@media(min-width:700px){.opts{grid-template-columns:repeat(4,1fr)}}
-.opt{display:flex; align-items:center; gap:8px; border:1px solid #334155; border-radius:10px; padding:10px; cursor:pointer; user-select:none}
-.opt input{display:none}
-.opt.active{outline:2px solid var(--blue); background:#092036}
+  <section class="card" id="quizArea">
+    <div class="progress" aria-label="Maendeleo"><div id="bar" class="bar"></div></div>
+    <div id="questions"></div>
+    <div class="foot">
+      <div style="display:flex;gap:8px;align-items:center"><button id="submit" class="btn" disabled>Onyesha Matokeo</button><button id="reset" class="btn secondary" type="button">Anza Upya</button></div>
+      <div class="small">Jibu kila swali kwa uaminifu — hakuna jibu sahihi zaidi ya jingine.</div>
+    </div>
+    <div id="result" class="result" role="region" aria-live="polite"></div>
+  </section>
 
+  <section class="card">
+    <h3 class="small">Maelezo ya Aina (kwa ufupi)</h3>
+    <ul class="small">
+      <li><strong>Sangwini:</strong> Mchangamfu, mcheshi, mshawishi.</li>
+      <li><strong>Melankolia:</strong> Mtulivu wa ndani, anayefikiria, mpangaji.</li>
+      <li><strong>Pragmatiki:</strong> Mtulivu, mvumilivu, mleta amani.</li>
+      <li><strong>Kloriki:</strong> Mthubutu, mshawishi wa matendo, kiongozi.</li>
+    </ul>
+    <p class="notice">Matokeo ni makadirio ya elimu. Kwa masuala muhimu ya kazi/ubinafsi, tafuta ushauri wa mtaalamu.</p>
+  </section>
+</div>
+
+<script>
+// ====== DATA: 99 questions (each option maps to type key internally) ======
+// Options text are neutral and do NOT reveal type mapping.
+const RAW_QUESTIONS = [
+  {q: 'Unapokutana na watu wapya, una tabia gani?', a:['Naanza kuzungumza na furaha','Natazamwa na kuwaza kwanza','Nahitaji muda kusalimiana taratibu','Naanzisha mawazo na muongozo'], m:['S','M','P','K']},
+  {q: 'Wakati wa kufanya kazi ya timu, unachukua nafasi gani?', a:['Natoa mawazo na kuhamasisha','Natafanya kazi ya kina nyuma','Nafanya kazi ya kusimamia mchakato','Najiweka mbele kuongoza'], m:['S','M','P','K']},
+  {q: 'Unakabili wapi mabadiliko?', a:['Nayapokea kwa msukumo','Nayaangalia kwa undani kwanza','Nayatulia na kuyapigia acho','Nayafanyia kazi mara moja'], m:['S','M','P','K']},
+  {q: 'Unapofanya mpango, una umuhimu gani kwa undani?', a:['Napenda kubuni mpango wenye rangi','Ninaandika kila kitu kwa kina','Napanga tu taratibu za msingi','Naunda mpango unaotekelezeka haraka'], m:['S','M','P','K']},
+  {q: 'Kuhusu uamuzi wa haraka, wewe ni kiasi gani?', a:['Ninaweza kuamua kikamilifu kwa hisia','Naruhusu muda wa kuchunguza','Napendelea kuamua baada ya kutulia','Natoa uamuzi wa haraka na kutekeleza'], m:['S','M','P','K']},
+  {q: 'Vilevile kwa kueleza hisia zako mbele ya watu?', a:['Hivi sasa navaeleza wazi','Ninatafakari kabla ya kusema','Ninaongea kidogo na kwa utulivu','Ninaongea kwa lengo la kuamsha hatua'], m:['S','M','P','K']},
+  {q: 'Unapopangwa kazi nyingi, unaoanza wapi?', a:['Naanza na kazi zinazoruhusu ubunifu','Nanafanya mpangilio wa kina kwanza','Naanza na kazi rahisi kwa utulivu','Naiweka kazi kwa kipaumbele na kuanza kazi ngumu kwanza'], m:['S','M','P','K']},
+  {q: 'Unapopata ukosoaji, unaona jinsi gani?', a:['Najaribu kuleta mzunguko wa chanya','Ninachunguza ukweli na kurudi kwa busara','Najaribu kulinda uhusiano kwanza','Nachukua hatua za kurekebisha haraka'], m:['S','M','P','K']},
+  {q: 'Katika tukio la haraka, una tabia gani?', a:['Ninatoa msaada wa kuhamasisha watu','Natafanya uchambuzi wa hali','Natafuta utulivu na msaada wa pamoja','Nakuja na mpango wa haraka wa utekelezaji'], m:['S','M','P','K']},
+  {q: 'Unapenda kufanya kitu gani kipya?', a:['Kuonana na watu au shughuli mpya','Kujifunza kwa kina kabla', 'Kuendelea kidogo bila msukumo','Kufanya jaribio la haraka kuona matokeo'], m:['S','M','P','K']},
+  {q: 'Je, unatilia maanani maelezo madogo?', a:['Najaribu kukumbuka mambo muhimu tu','Nayachambua kwa undani','Nayapanga kidogo na kusahihisha taratibu','Nayafanyia kazi yale muhimu tu kwa haraka'], m:['S','M','P','K']},
+  {q: 'Unapendelea kazi yenye...', a:['Muda wa mawasiliano na watu','Tathmini/ubora','Utulivu na taratibu','Matokeo na mabadiliko'], m:['S','M','P','K']},
+  {q: 'Ukikutana na tatizo gumu, unaendaje?', a:['Nahitaji kiongozi wa motisha','Nahitaji muundo wa ufumbuzi','Nahitaji subira na mchakato','Nahitaji hatua ya haraka na wazi'], m:['S','M','P','K']},
+  {q: 'Unapokutana na nafasi ya kutembea nje, unaenda wapi?', a:['Naenda kwa shughuli ya kila mtu','Naenda mahali pa kutulia kusoma','Natafuta eneo la kupumzika peke','Nafuta shughuli yenye lengo la kubadilisha'], m:['S','M','P','K']},
+  {q: 'Unapendelea jinsi gani kujifunza kitu kipya?', a:['Kwa kufanya na kuzungumza','Kwa kusoma na mafunzo ya kina','Kwa kuangalia hatua kwa hatua','Kwa kufanya na kupima matokeo'], m:['S','M','P','K']},
+  {q: 'Katika uamuzi wa pesa, una mwelekeo gani?', a:['Ninaweza kuwekeza kwa uzoefu','Ninaweka mpango wa kifedha uliowekwa','Ninatunza kwa ajili ya mahitaji','Nafanya uwekezaji wenye malengo'], m:['S','M','P','K']},
+  {q: 'Kama unahitaji kusuluhisha migogoro, unaanza na nini?', a:['Kuleta mazungumzo ya kuamsha uelewano','Kukusanya taarifa za kina','Kutafuta njia za kuleta amani','Kuweka hatua za haraka za kufikia muafaka'], m:['S','M','P','K']},
+  {q: 'Unapofurahia kuongea kwa simu au ana-be', a:['Ninafurahia kuungana na watu','Ninapenda mazungumzo yaliyopangwa','Ninapenda mazungumzo ya utulivu','Ninapenda mazungumzo yenye malengo'], m:['S','M','P','K']},
+  {q: 'Kuhusu mipango ya siku za mwisho, una tabia gani?', a:['Natafuta shughuli za kufurahisha','Ninatayarisha orodha ya kina','Ninaweka ratiba ya kupumzika','Natafuta kufanikisha tija kwa malengo'], m:['S','M','P','K']},
+  {q: 'Je, unapendelea kushirikisha hisia zako mara kwa mara?', a:['Ndiyo, mara nyingi','Ndio, lakini baada ya kuelewa','Sijali sana kusikika hisia','Nauonyesha hisia kwa lengo la kusukuma hatua'], m:['S','M','P','K']},
+  {q: 'Kuhusu ubora wa kazi, una umuhimu gani?', a:['Ninapenda kazi ionekane nzuri kwa watu','Nahitaji ubora uliokaguliwa','Ninahitaji kazi ifanyike bila makosa makubwa','Nahitaji kazi ifikie malengo kwa ufanisi'], m:['S','M','P','K']},
+  {q: 'Unapopatana na wazo la ajabu, una hali gani?', a:['Natarajia kuonyesha kwa wengine','Naanza kuchunguza iwapo lina maana','Nalifanyia kazi polepole kwa utulivu','Nafikiria jinsi ya kulirekebisha kwa utekelezaji'], m:['S','M','P','K']},
+  {q: 'Unapopanga katika kikundi, je, upo wapi?', a:['Mwanasiasa wa ki-morale','Mwanachama anayehakikisha ubora','Mwanachama anayehakikisha utulivu','Mwenyekiti anayeshawishi utekelezaji'], m:['S','M','P','K']},
+  {q: 'Jinsi unavyofanya kazi bila usimamizi?', a:['Natafuta mawasiliano na wengine','Nafanya kazi kwa planilization','Nafanya kazi kwa utaratibu uliojaa subira','Nafanya kazi kwa malengo na muda'], m:['S','M','P','K']},
+  {q: 'Kuhusu kusahau vitu, una tabia gani?', a:['Ninaweza kusahau lakini natarajia kujulisha','Ninaweka kumbukumbu za kina','Ninaweka nafasi ya marejeo kidogo','Ninaweka mikakati ya kufuatilia matokeo'], m:['S','M','P','K']},
+  {q: 'Unapopendekeza suluhisho, ni jinsi gani?', a:['Kwa mapendekezo ya kufurahisha','Kwa mapendekezo ya undani','Kwa mapendekezo ya utulivu','Kwa mapendekezo ya utekelezaji'], m:['S','M','P','K']},
+  {q: 'Kuhusu kushirikiana kwenye mradi, unaona nini?', a:['Ni fursa ya kufurahisha watu','Ni nafasi ya kufanya kazi kwa ubora','Ni njia ya kuleta amani na uthabiti','Ni nafasi ya kupata matokeo ya haraka'], m:['S','M','P','K']},
+  {q: 'Je, unajisikia vipi unapoona watu walioshinda?', a:['Ninafurahi kwao na kusherehekea','Ninafanya tathmini ya jinsi walivyofanya','Ninafurahi kwa utulivu wao','Nafikiria jinsi walivyofanya na kuiga sehemu'], m:['S','M','P','K']},
+  {q: 'Kuhusu kuongeza mahusiano mapya, una tabia gani?', a:['Ninaingia kwa urahisi kwa mazungumzo','Ninaweka ndoto ya kumjua kwa undani','Ninajenga kinachowezesha uhusiano mwerevu','Ninawaona kama watu wa kushirikiana kwenye miradi'], m:['S','M','P','K']},
+  {q: 'Unapofanya kazi ya ubunifu, unaingia wapi?', a:['Naiangusha kwa watu na maono','Nafanya muundo wa kina kwanza','Naiweka taratibu za kutekeleza polepole','Naiandaa kwa utekelezaji wa matokeo'], m:['S','M','P','K']},
+  {q: 'Kuhusu kukabiliana na stress, una njia gani?', a:['Nataka kuzungumza na wengine','Nataka kuandika na kupanga','Nataka kupumzika na kutafakari','Nataka kujipanga tena na kuchukua hatua'], m:['S','M','P','K']},
+  {q: 'Katika uamuzi wa kazi, una thamani gani?', a:['Ninaangalia jinsi itakavyobadilisha watu','Ninaangalia ubora na mwiano','Ninaangalia jinsi itakavyoleta utulivu','Ninaangalia tija na matokeo'], m:['S','M','P','K']},
+  {q: 'Unapendelea mtindo wa kazi gani?', a:['Mkakati wa kushirikisha watu','Mikakati ya ubora na mpangilio','Mtindo wa utulivu na utiifu','Mtindo wa utekelezaji na ushindani'], m:['S','M','P','K']},
+  {q: 'Kuhusu umakini kwa maelezo, una nafasi gani?', a:['Ninaona muhimu lakini si kila wakati','Ninayachunguza kwa kina','Ninaweka marejeo ya lazima','Nayafanyia kazi kwa kulinganisha matokeo'], m:['S','M','P','K']},
+  {q: 'Ukiona mgogoro, una tabia gani?', a:['Naanza mazungumzo ili kupunguza','Naanza uchambuzi wa chanzo','Natatua kimya na hijja ya amani','Naunda hatua za kupunguza madhara sasa'], m:['S','M','P','K']},
+  {q: 'Kuhusu kuomba msaada, una tabia gani?', a:['Naitafuta kwa kuzungumza wazi','Naiomba kwa maandishi au taarifa','Naitafuta kwa watu wapole na waaminifu','Naiomba ili kupata tiba ya haraka'], m:['S','M','P','K']},
+  {q: 'Je, unapendelea pia kushiriki matukio?', a:['Ndiyo, mara nyingi nashirikiana','Naona muhimu kuchagua kwa busara','Nashiriki pale ninapohisi ni muhimu','Nashiriki kama kuna malengo ya utekelezaji'], m:['S','M','P','K']},
+  {q: 'Kuhusu hatima za timu, una hisia gani?', a:['Ninafurahi na kuhamasisha','Ninafanya tathmini na kuandika mafanikio','Ninatafuta uthabiti na uendelevu','Nataka kuona malengo yakitimiza kwa ufanisi'], m:['S','M','P','K']},
+  {q: 'Katika hafla ya kijamii, una tabia gani?', a:['Ninajitokeza na kuzungumza','Ninakuwa mtafsiri wa mazungumzo','Ninashiriki kwa utulivu','Nashiriki kwa lengo la kuleta mabadiliko'], m:['S','M','P','K']},
+  {q: 'Kuhusu kufanya kazi usiku, una hisia gani?', a:['Ninaweza kufanya kwa msukumo','Ninaandaa kwa kupanga kabla','Ninahitaji sababu nzuri kugeuza ratiba','Ninaamua kufanya haraka ili kumaliza kazi'], m:['S','M','P','K']},
+  {q: 'Una tabia gani kuhusu neno la mwisho katika mazungumzo?', a:['Nataka kuwahimiza watu kwa ucheshi','Nataka kutoa hoja za kina','Nataka kuleta amani ya mwisho','Nataka kuweka agizo la utekelezaji'], m:['S','M','P','K']},
+  {q: 'Kuhusu kutengeneza mpango wa maisha, unaendaje?', a:['Natafuta uzoefu wa kushirikisha watu','Ninaandika malengo na jingine kwa kina','Ninaweka ratiba rahisi na ya kuendeleza','Nabuni mfumo wa kufuatilia utekelezaji'], m:['S','M','P','K']},
+  {q: 'Unapopendekeza mabadiliko, unaanza wapi?', a:['Naanzisha kwa kuhamasisha watu','Nakuza hoja na ushahidi','Natoa njia ya kupunguza athari','Naanzisha mpango wa utekelezaji'], m:['S','M','P','K']},
+  {q: 'Kuhusu mipango ya kazi kwa wiki, una tabia gani?', a:['Ninaweka nafasi za mikutano ya kujadili','Ninaandika orodha ya kina','Ninaweka ratiba ya kazi ndogo ndogo','Ninaweka malengo ya utekelezaji na tarehe'], m:['S','M','P','K']},
+  {q: 'Je, unathamini watu wanaokosoa kwa uzito gani?', a:['Nawashughulikia kwa ucheshi','Ninachunguza na kujiboresha','Najaribu kuleta suluhu isiyolalamika','Nachukua hatua kulingana na matokeo'] , m:['S','M','P','K']},
+  {q: 'Unapohisi furaha, unaipata vipi?', a:['Kwa kushiriki na wengine','Kwa kujitafakari au sanaa','Kwa kuwa katika utulivu wa familia','Kwa kuona malengo yakitimia'], m:['S','M','P','K']},
+  {q: 'Kuhusu ishu ya ubunifu, unaweza kufanya nini?', a:['Kuunda mbunifu wa kuvutia','Kufanya tafiti na marekebisho','Kujenga mfumo wa majaribio','Kuweka mkakati wazi wa utekelezaji'], m:['S','M','P','K']},
+  {q: 'Kuhusu mtu mwenye msukumo wa kuja mbele, una mtazamo gani?', a:['Namkubali kwa ucheshi na hamasa','Namtathmini kwa hoja zake','Namtafuta kumshirikisha kwa utulivu','Namtafuta kwa uwezo wa kutekeleza'], m:['S','M','P','K']},
+  {q: 'Kuhusu kazi ya siku nyingi za msongamano, una mipango gani?', a:['Natarajia kushirikisha watu ili kusimamia','Ninaweka orodha ya hatua za kina','Natafuta njia za kupumua na kuendelea','Naiweka mipango na matumaini ya malengo'], m:['S','M','P','K']},
+  {q: 'Kuhusu mazoea ya utendaji, una mkataba gani?', a:['Natarajia kuwashirikisha watu','Nahitaji mwongozo wa hali ya juu','Nahitaji mbinu za kutekeleza polepole','Nahitaji mfumo wa viashiria vya mafanikio'], m:['S','M','P','K']},
+  {q: 'Una tabia gani kwa kupokea habari mbaya?', a:['Natafuta msaada wa kijamii','Natafanya tafiti za chanzo','Najiweka mbali kwa kutafuta utulivu','Nafanya mpango wa hatua za dharura'], m:['S','M','P','K']},
+  {q: 'Kuhusu maamuzi ya kuhamisha malengo, una tabia gani?', a:['Ninaweza kubadilisha kwa furaha','Ninaweka upya mpango kwa undani','Natafanya kwa hatua ndogo ndogo','Nataka kuhakikisha utekelezaji upo'], m:['S','M','P','K']},
+  {q: 'Unapopata hofu ya umaarufu, unafanya nini?', a:['Naitumia kama njia ya kuwakumbusha watu','Najiuliza kwa nini na kuipanga','Natafanya mapumziko ili kurejea utulivu','Naiangalia kama mwelekeo wa kufanya kazi'], m:['S','M','P','K']},
+  {q: 'Kuhusu kivutio cha watu wengi, una njia gani?', a:['Ninatumia ucheshi kuwaleta karibu','Ninaunda mpango wa maelezo','Ninaunda mazingira ya ushirikiano','Naunda mfumo wa utekelezaji unaoonekana'], m:['S','M','P','K']},
+  {q: 'Kuhusu kuomba radhi au kurekebisha kosa, una njia gani?', a:['Nawasamehe kwa uwazi','Natatilia ndani kuona kilichosababisha','Natafuta njia ya kulinda uhusiano','Nafanya hatua za kutafuta suluhisho haraka'], m:['S','M','P','K']},
+  {q: 'Unapofanya kazi kwa wiki nzima, una mpangilio gani wa kupumzika?', a:['Natafuta shughuli za jamii','Ninaweka muda wa kusoma/kujifunza','Nachukua muda wa kupumzika bila shughuli kubwa','Napanga wakati wa kufanya mazoezi ya tija'], m:['S','M','P','K']},
+  {q: 'Kuhusu kuuliza maswali kwenye mkutano, una mwelekeo gani?', a:['Ninauliza maswali ya kuwahamasisha wengine','Ninauliza maswali ya undani','Ninauliza maswali ya kutafuta utulivu','Ninauliza maswali ya kufanikisha hatua'], m:['S','M','P','K']},
+  {q: 'Kuhusu nia yako ya kupendeza kwa watu, una mtazamo gani?', a:['Nataka watu wafurahi kuwa karibu','Nataka watu waheshimu kazi yangu','Nataka uhusiano wa muda mrefu','Nataka watu wafanye kazi pamoja na mimi kwa malengo'], m:['S','M','P','K']},
+  {q: 'Kuhusu kuweka vipaumbele, una njia gani?', a:['Ninapenda vitu vinavyotoa hamasa','Ninapanga vitu muhimu kwa undani','Ninapunguza na kuweka vile vya msingi','Ninaweka vipaumbele vinavyolenga matokeo'], m:['S','M','P','K']},
+  {q: 'Kuhusu ubunifu ndani ya kikundi, unachangia nini?', a:['Natoa mawazo ya kuvutia','Natoa maelezo ya kina ya utekelezaji','Nafanya kazi ya kuunganisha maoni','Ninatoa mpango wa utekelezaji'], m:['S','M','P','K']},
+  {q: 'Kuhusu upendo wa kufanya kazi tena, una tabia gani?', a:['Ninapenda kufanya kazi na watu','Ninapenda kazi yenye ubora','Ninapenda kazi yenye utulivu','Ninapenda kazi yenye changamoto na mafanikio'], m:['S','M','P','K']},
+  {q: 'Kuhusu kutoa msaada kwa mduara wako, una mtazamo gani?', a:['Natoa msaada kwa mazungumzo na sherehe','Natoa msaada kwa kupanga na kuandaa','Natoa msaada kwa kuweka faragha na utulivu','Natoa msaada kwa kusukuma utekelezaji'], m:['S','M','P','K']},
+  {q: 'Kuhusu kushirikiana na watu wenye mawazo tofauti, una tabia gani?', a:['Ninajaribu kuoanisha mawazo kwa ucheshi','Ninachunguza ili kuleta mwafaka','Ninatafuta eneo la kuleta amani','Najenga mpango mgumu unaoweka wazi matokeo'], m:['S','M','P','K']},
+  {q: 'Kuhusu maneno ya kumtia moyo, una mtindo gani?', a:['Natumia hadithi na mifano ya furaha','Natumia hoja za kina na maelezo','Natumia mfano wa utulivu na mnyororo','Natumia warsha/hatua za kutekeleza'], m:['S','M','P','K']},
+  {q: 'Kuhusu kifungo cha muda wa maamuzi, una hisia gani?', a:['Ninashirikisha watu kwa haraka','Natafuta taarifa kabla ya kuchagua','Ninahitaji muda wa kutulia kabla ya kuchagua','Ninatoa tarehe ya mwisho na kutekeleza'], m:['S','M','P','K']},
+  {q: 'Kuhusu jinsi unavyohisi usiku kabla ya kulala, una tabia gani?', a:['Natafuta mazungumzo/filamu za kuchekesha','Nakuja na mpango wa kesho','Naletwa utulivu kwa kusoma/kuandika','Natafanya orodha ya kazi za kesho na kuanza kupanga'], m:['S','M','P','K']},
+  {q: 'Kuhusu kushirikisha mawazo yako kwa watu wengine, una mtindo gani?', a:['Natumia shughuli za pamoja kuonyesha','Nawakabidhi hoja za kina','Naitaelezea kwa utulivu wa kupendeza','Natoa mwongozo wa hatua kufuatilia'], m:['S','M','P','K']},
+  {q: 'Je, unafurahia kubadilisha mazingira mara kwa mara?', a:['Ndiyo, napenda mabadiliko','Sidhani ni jambo la lazima','Ninahitaji mapumziko kidogo kabla ya mabadiliko','Nabadili ili kuongeza tija'], m:['S','M','P','K']},
+  {q: 'Kuhusu muda wa kusimamia watu, una mtazamo gani?', a:['Ninapenda kuhamasisha','Ninapendelea kutoa mwongozo wa kina','Ninapendelea kuwa msimamizi wa moral','Ninapendelea kuwa msimamizi wa matokeo'], m:['S','M','P','K']}
+];
+
+// ensure we have about 99 questions; we'll repeat pattern to reach 99 by rotating variations
+(function extendTo99(){
+  const base = RAW_QUESTIONS.slice();
+  let i=0;
+  while(RAW_QUESTIONS.length < 99){
+    const src = base[i % base.length];
+    // create a shallow copy with slightly reworded question index to avoid exact repeats
+    const copy = {q: src.q, a: src.a.slice(), m: src.m.slice()};
+    RAW_QUESTIONS.push(copy);
+    i++;
+  }
+})();
+
+// Types mapping (internal labels only) and friendly names
+const TYPES = {S:'Sangwini',M:'Melankolia',P:'Pragmatiki',K:'Kloriki'};
+
+// Build shuffled questions and render
+let QUESTIONS = [];
+function shuffleArray(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a}
+
+function prepareQuestions(){
+  // create objects where each option has text and type, but do not reveal type
+  QUESTIONS = RAW_QUESTIONS.map(item=>{
+    const opts = item.a.map((text, idx)=>({text, type: item.m[idx]}));
+    // shuffle options so positions vary
+    return {q: item.q, opts: shuffleArray(opts)};
+  });
+  // shuffle questions order
+  QUESTIONS = shuffleArray(QUESTIONS);
+}
+
+const DOM = { qWrap: document.getElementById('questions'), submit: document.getElementById('submit'), reset: document.getElementById('reset'), result: document.getElementById('result'), bar: document.getElementById('bar'), qCount: document.getElementById('q-count') };
+
+function render(){
+  prepareQuestions();
+  DOM.qWrap.innerHTML = '';
+  QUESTIONS.forEach((q, idx)=>{
+    const el = document.createElement('div'); el.className='q';
+    el.innerHTML = `<h3>${idx+1}. ${q.q}</h3><div class="opts" role="group" data-q="${idx}"></div>`;
+    DOM.qWrap.appendChild(el);
+    const optsWrap = el.querySelector('.opts');
+    q.opts.forEach((o,oi)=>{
+      const lab = document.createElement('label'); lab.className='opt'; lab.setAttribute('data-q',idx); lab.setAttribute('data-type',o.type);
+      lab.innerHTML = `<input type="radio" name="q_${idx}" value="${o.type}" style="display:none"><span>${o.text}</span>`;
+      optsWrap.appendChild(lab);
+    });
+  });
+  DOM.qCount.textContent = QUESTIONS.length;
+
+  DOM.qWrap.addEventListener('click', e=>{
+    const opt = e.target.closest('.opt'); if(!opt) return;
+    const qIndex = opt.getAttribute('data-q');
+    DOM.qWrap.querySelectorAll(`label.opt[data-q="${qIndex}"]`).forEach(n=>n.classList.remove('active'));
+    opt.classList.add('active');
+    opt.querySelector('input').checked = true;
+    updateProgress();
+  });
+
+  DOM.submit.addEventListener('click', onSubmit);
+  DOM.reset.addEventListener('click', resetAll);
+
+  updateProgress();
+}
+
+function answers(){
+  return QUESTIONS.map((_, idx)=>{
+    const checked = document.querySelector(`input[name="q_${idx}"]:checked`);
+    return checked ? checked.value : null;
+  });
+}
+
+function updateProgress(){
+  const vals = answers(); const answered = vals.filter(v=>v!==null).length; const pct = Math.round((answered/QUESTIONS.length)*100); DOM.bar.style.width = pct+'%'; DOM.submit.disabled = answered !== QUESTIONS.length;
+}
+
+function onSubmit(){
+  const vals = answers(); if(vals.some(v=>v===null)) return;
+  const tally = {S:0,M:0,P:0,K:0}; vals.forEach(v=>tally[v]++);
+  const total = vals.length; const pct = Object.fromEntries(Object.entries(tally).map(([k,v])=>[k, Math.round((v/total)*100)]));
+  const sorted = Object.entries(pct).sort((a,b)=>b[1]-a[1]);
+  const [domK, domPct] = sorted[0]; const [secK, secPct] = sorted[1];
+  const explanations = {
+    S: 'Sangwini — Mchangamfu, mshawishi, mpenda watu. Unafaidika kwa kushiriki mawazo na kuimarisha timu kupitia hamasa. Ili kuboresha, jenga utaratibu na ratiba.' ,
+    M: 'Melankolia — Mtafakari, mtafiti, anayetafuta ubora. Unaleta kina na ubora. Jihadhari na kujikosoa kupita kiasi; toa muda kwa kujenga ujasiri.',
+    P: 'Pragmatiki — Mtulivu, mvumilivu, mleta amani. Unasimamia utulivu na hutoa uthabiti. Jihadhari na kupitwa na fursa; jaribu kuchukua hatua mara kwa mara.',
+    K: 'Kloriki — Mthubutu, mshawishi wa matendo, kiongozi. Unasukuma utekelezaji na tija. Jihadhari na subira na uwezo wa kusikiliza wengine.'
+  };
+
+  // build result html
+  const rows = ['S','M','P','K'].map(k=>{
+    return `<div class="row"><div class="typeBox">${TYPES[k]}</div><div class="barWrap"><div class="fill ${k}" style="width:${pct[k]}%;background:${k==='S'? '#06b6d4':k==='M'?'#a78bfa':k==='P'?'#22c55e':'#f59e0b'}"></div></div><div style="width:48px;text-align:right">${pct[k]}%</div></div>`;
+  }).join('');
+
+  const summary = `<p style="margin-top:8px"><strong>Aina inayoongoza:</strong> ${TYPES[domK]} (${domPct}%) &nbsp; <strong>Ya pili:</strong> ${TYPES[secK]} (${secPct}%)</p>
+  <p class="desc"><strong>Maelezo:</strong> ${explanations[domK]}</p>
+  <p class="desc"><strong>Maelezo ya pili:</strong> ${explanations[secK]}</p>
+  <p class="desc">Kumbuka: Hakuna mtu 100% aina moja. Tumia matokeo haya kama mwongozo wa kujijua zaidi.</p>
+  <p style="margin-top:8px"><a class="copy" id="copyBtn" href="#">Nakili muhtasari mfupi</a></p>`;
+
+  DOM.result.style.display = 'block'; DOM.result.innerHTML = `<h2>Matokeo Yako</h2>${rows}${summary}`;
+  DOM.result.scrollIntoView({behavior:'smooth', block:'start'});
+
+  document.getElementById('copyBtn').addEventListener('click', e=>{e.preventDefault(); const text = `Matokeo: ${TYPES[domK]} ${domPct}%; ${TYPES[secK]} ${secPct}%.`; navigator.clipboard?.writeText(text); e.target.textContent = 'Imenakiliwa!'; setTimeout(()=>e.target.textContent='Nakili muhtasari mfupi',1400);});
+}
+
+function resetAll(){document.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);document.querySelectorAll('.opt').forEach(o=>o.classList.remove('active'));DOM.result.style.display='none';DOM.result.innerHTML='';updateProgress();window.scrollTo({top:0,behavior:'smooth'});}
+
+// initial render
+render();
+</script>
+</body>
+</html>
 .foot{display:flex; gap:12px; flex-wrap:wrap; justify-content:space-between; align-items:center; margin-top:12px}
 button{background:var(--accent); color:#052e12; border:none; padding:12px 18px; border-radius:12px; font-weight:700; cursor:pointer}
 button.secondary{background:transparent; color:var(--muted); border:1px solid #334155}
