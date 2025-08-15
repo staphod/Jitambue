@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wewe ni mtu wa aina gani kati ya tabia kuu nne?</title>
+  <meta name="description" content="Jaribio la tabia nne (Sangwini, Melankolia, Pragmatiki, Kloriki). Pata mgawanyo wa asilimia na maelezo ya aina yako kuu papo hapo." />
+  <style>
+    :root{
+      --bg:#0b1220; --bg2:#0f172a; --card:#0b1220; --muted:#94a3b8; --text:#e5e7eb;
+      --line:#1f2937; --accent:#22c55e; --link:#38bdf8; --blue:#0ea5e9;
+      --S:#06b6d4; /* sangwini */
+      --M:#a78bfa; /* melankolia */
+      --P:#22c55e; /* pragmatiki */
+      --K:#f59e0b; /* kloriki */
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Noto Sans,Arial; color:var(--text); background:linear-gradient(180deg,var(--bg),var(--bg2));}
+    .wrap{max-width:1000px; margin:0 auto; padding:20px;}
+    header.hero{position:relative; border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.35);}
+    .hero img{width:100%; height:260px; object-fit:cover; display:block; filter:brightness(.7) saturate(1.05);} 
+    .hero .overlay{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:18px; background:linear-gradient(180deg,rgba(0,0,0,0) 20%,rgba(0,0,0,.45) 70%);} 
+    .hero h1{margin:0; font-size:clamp(1.4rem,2.6vw,2rem);} 
+    .hero p{margin:.4rem 0 0; color:#cbd5e1}.card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; margin-top:16px}
+.lead{color:var(--muted)}
+
+.progress{height:10px; background:#091120; border:1px solid var(--line); border-radius:999px; overflow:hidden;}
+.bar{height:100%; width:0%; background:linear-gradient(90deg,#22c55e,#0ea5e9)}
+
+.q{padding:14px; border:1px solid var(--line); border-radius:12px; margin:14px 0; background:#0a1324}
+.q h3{margin:0 0 8px; font-size:1rem}
+.opts{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px}
+@media(min-width:700px){.opts{grid-template-columns:repeat(4,1fr)}}
+.opt{display:flex; align-items:center; gap:8px; border:1px solid #334155; border-radius:10px; padding:10px; cursor:pointer; user-select:none}
+.opt input{display:none}
+.opt.active{outline:2px solid var(--blue); background:#092036}
+
+.foot{display:flex; gap:12px; flex-wrap:wrap; justify-content:space-between; align-items:center; margin-top:12px}
+button{background:var(--accent); color:#052e12; border:none; padding:12px 18px; border-radius:12px; font-weight:700; cursor:pointer}
+button.secondary{background:transparent; color:var(--muted); border:1px solid #334155}
+button[disabled]{opacity:.6; cursor:not-allowed}
+
+.result{display:none; margin-top:16px; border:1px solid var(--line); border-radius:14px; padding:16px; background:#07101e}
+.pill{display:inline-block; padding:6px 12px; border-radius:999px; font-weight:800; color:#051b0e; background:#22c55e}
+
+.row{display:grid; grid-template-columns:140px 1fr 60px; gap:10px; align-items:center; margin:8px 0}
+.barRow{height:12px; background:#0b162a; border:1px solid #22304a; border-radius:999px; overflow:hidden}
+.barFill{height:100%; width:0}
+
+.S{background:var(--S)} .M{background:var(--M)} .P{background:var(--P)} .K{background:var(--K)}
+.tag{border:1px solid #334155; color:#cbd5e1; padding:4px 10px; border-radius:999px; font-size:.82rem}
+
+.floating-start{position:fixed; right:18px; bottom:18px; z-index:9999; background:#0ea5e9; color:#fff; padding:12px 16px; border-radius:999px; text-decoration:none; font-weight:800; box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.floating-start:hover{transform:translateY(-1px)}
+
+a{color:var(--link)}
+
+  </style>
+</head>
+<body>
+  <a href="#quiz" class="floating-start">Anza Jaribio</a>
+  <div class="wrap">
+    <header class="hero">
+      <img src="https://source.unsplash.com/1600x900/?team,diversity,people" alt="Picha ya watu wenye utu tofauti" />
+      <div class="overlay">
+        <h1>Wewe ni mtu wa aina gani kati ya tabia kuu nne?</h1>
+        <p>Jibu maswali ili kupata mgawanyo wa asilimia: Sangwini, Melankolia, Pragmatiki, na Kloriki — pamoja na maelezo ya aina yako inayoongoza.</p>
+      </div>
+    </header><section class="card">
+  <p class="lead"><strong>Kwa nini jaribio hili?</strong> Kila mtu ana mchanganyiko wa tabia. Kujua upande unaokutawala hukusaidia kuchagua kazi, kuboresha mawasiliano, na kudhibiti udhaifu. Jaribio hili la elimu linatoa <em>mgawanyo wa asilimia</em> kwa kila aina na <em>ushauri wa vitendo</em>.</p>
+  <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px">
+    <span class="tag">Maswali: <span id="q-count">—</span></span>
+    <span class="tag">Muda: ~10–15 dk</span>
+    <span class="tag">Lugha: Kiswahili</span>
+  </div>
+</section>
+
+<section id="quiz" class="card">
+  <div class="progress" aria-label="Maendeleo ya kujibu"><div id="bar" class="bar"></div></div>
+  <div id="questions"></div>
+  <div class="foot">
+    <div style="display:flex; gap:8px; align-items:center">
+      <button id="submit" disabled>Onyesha Matokeo</button>
+      <button id="reset" class="secondary" type="button">Anza Upya</button>
+    </div>
+    <small class="lead">Chagua jibu linalokukaribia zaidi kwa kila swali.</small>
+  </div>
+  <div id="result" class="result" role="region" aria-live="polite"></div>
+</section>
+
+<section class="card">
+  <h2>Maelezo mafupi ya Aina Nne</h2>
+  <ul>
+    <li><strong>Sangwini (S):</strong> Mchangamfu, msoci, huanzisha mazungumzo, hupenda ubunifu. Udhaifu: mpangilio mdogo, kuahirisha.</li>
+    <li><strong>Melankolia (M):</strong> Mwenye tafakari, mpangaji, anayetafuta ubora. Udhaifu: kujikosoa kupita kiasi, wasiwasi.</li>
+    <li><strong>Pragmatiki (P):</strong> Mtulivu, mvumilivu, mleta amani. Udhaifu: kuchelewa kuamua, kuepuka migogoro.</li>
+    <li><strong>Kloriki (K):</strong> Mthubutu, kiongozi, anayehamasisha utekelezaji. Udhaifu: kukosa subira, ukali.</li>
+  </ul>
+  <p class="lead">Matokeo yako yatakuonyesha <em>asilimia</em> ya kila moja na maelezo ya aina inayoongoza pamoja na ya pili (secondary).</p>
+</section>
+
+  </div>  <script>
+    // ===== Skeli na maswali =====
+    // Kila swali lina chaguo 4: S, M, P, K
+    const QUESTIONS = [
+      { t: 'Unapokutana na watu wapya...', o: {S:'Naanza mazungumzo mara moja', M:'Nawakagua kimya kimya kwanza', P:'Nasubiri hali iwe tulivu', K:'Naongoza mazungumzo kuelekea lengo'} },
+      { t: 'Ukikabidhiwa mradi mpya...', o: {S:'Naletaa mawazo mapya yenye ubunifu', M:'Natengeneza mpango wa kina kabla ya kuanza', P:'Natafuta ushirikiano wa utulivu', K:'Nagawa majukumu na kuweka tarehe za mwisho'} },
+      { t: 'Unapokosea...', o: {S:'Naomba radhi kwa urahisi na naendelea', M:'Najichambua sana ili nisirudie kosa', P:'Najaribu kutafuta amani na kuepusha lawama', K:'Nachukua udhibiti na kurekebisha kwa haraka'} },
+      { t: 'Kuhusu hatari...', o: {S:'Ninaichukulia kama fursa ya kujifunza', M:'Naihesabu kwa makini kabla ya kuamua', P:'Naiwekea mipaka ili nisiwe na msongo', K:'Nakopea ikiwa faida ni kubwa'} },
+      { t: 'Kuhusu ratiba...', o: {S:'Napenda kubadilika kulingana na fursa', M:'Napenda kufuata mpango ulioandikwa', P:'Napenda ratiba tulivu isiyo na shinikizo', K:'Napanga ili kuhakikisha matokeo'} },
+      { t: 'Kwenye mkutano...', o: {S:'Natoa nguvu chanya na kushirikisha watu', M:'Nakuja na takwimu/maandalizi ya kina', P:'Nafanya watu wajisikie kusikilizwa', K:'Nasukuma maamuzi yafanyike'} },
+      { t: 'Unapokuwa na muda huru...', o: {S:'Nafanya shughuli za kijamii', M:'Nafanya mradi wa binafsi uliopangwa', P:'Napumzika na kuwaza kwa utulivu', K:'Nafanya kitu kinachonisogeza kwenye malengo'} },
+      { t: 'Kashfa/ukosoaji unapotokea...', o: {S:'Naigeuza kuwa mjadala mwepesi', M:'Nachambua kilichosemwa kwa kina', P:'Natuliza hali ili kusiwe na ugomvi', K:'Naiweka mipaka na kuongoza mjadala'} },
+      { t: 'Kuhusu taarifa mpya...', o: {S:'Najaribu papo hapo', M:'Nasoma mwongozo kwanza', P:'Nauliza wengine kabla ya kujaribu', K:'Najaribu na kuboresha haraka'} },
+      { t: 'Kusimamia pesa binafsi...', o: {S:'Mara nyingine natumia kwa msukumo', M:'Naandika bajeti kwa undani', P:'Natunza matumizi ya wastani', K:'Nawekeza kwenye miradi yenye matokeo'} },
+      { t: 'Kuhusu migogoro...', o: {S:'Natumia ucheshi kupunguza mvutano', M:'Natafuta ukweli na kanuni', P:'Natafuta suluhu ya maelewano', K:'Nataka uamuzi wa haraka na uwazi'} },
+      { t: 'Kuhusu mawasiliano...', o: {S:'Ninaongea kwa hisia na hadithi', M:'Ninaandika barua pepe/takriri ndefu', P:'Naskiliza kwanza kisha naongea kidogo', K:'Natoa maagizo mafupi na wazi'} },
+      { t: 'Kazi zikiwa nyingi...', o: {S:'Natafuta msaada wa timu kwa shauku', M:'Natengeneza orodha na vipaumbele', P:'Nafanya hatua ndogo kwa utulivu', K:'Nagawa kazi na kusukuma kasi'} },
+      { t: 'Kipya kinapohitajika...', o: {S:'Nabuni kampeni/mawazo mapya', M:'Nafanyia utafiti kabla ya kupendekeza', P:'Natafuta jinsi ya kuunganisha watu', K:'Naanzisha utekelezaji mara moja'} },
+      { t: 'Unapotakiwa kuchagua kazi...', o: {S:'Ninapenda kazi zenye watu/shughuli', M:'Kazi za uchambuzi na ubora', P:'Kazi zenye utulivu na utaratibu', K:'Kazi za uongozi na matokeo'} },
+      { t: 'Kuhusu makosa ya wengine...', o: {S:'Nawasamehe kwa wepesi', M:'Natoa mrejesho wa kina', P:'Natafuta kulinda ushirikiano', K:'Nawataka wafuate viwango mara moja'} },
+      { t: 'Unapoanza siku...', o: {S:'Natafuta msisimko/mawasiliano', M:'Naangalia mpango na vipaumbele', P:'Naanza taratibu bila haraka', K:'Naweka malengo ya siku na KPI'} },
+      { t: 'Kuhusu kujifunza...', o: {S:'Kwa vitendo na kujihusisha', M:'Kwa kusoma na kufanya mazoezi ya kanuni', P:'Kwa kuangalia na kutafakari', K:'Kwa kufanya na kupima matokeo'} },
+      { t: 'Kuhusu sherehe/tukio...', o: {S:'Mwenyeji wa furaha/kuchekesha', M:'Mpangaji wa maelezo yote', P:'Mratibu wa amani ya kundi', K:'Kiongozi wa shughuli kuu'} },
+      { t: 'Unapokatishwa tamaa...', o: {S:'Natafuta marafiki/mazungumzo', M:'Natafakari nikiwa peke yangu', P:'Napumzika hadi nipo tayari', K:'Naweka mpango mbadala haraka'} },
+      { t: 'Katika timu...', o: {S:'Mhamasishaji na mleta morali', M:'Mchambuzi/mthibitishaji ubora', P:'Mleta umoja na msimamizi wa mchakato', K:'Kiongozi/mtoa maamuzi'} },
+      { t: 'Kuhusu nidhamu binafsi...', o: {S:'Nahitaji msisimko ili nisukume', M:'Nafuata ratiba kwa ukaribu', P:'Nafanya taratibu bila kujilazimisha', K:'Najiwekea shinikizo la kufanikisha'} },
+      { t: 'Unapofikiri kuhusu mustakabali...', o: {S:'Naona uwezekano na ndoto', M:'Naweka mpango wa hatua', P:'Naona utulivu na uhusiano imara', K:'Naona malengo makubwa na mafanikio'} },
+      { t: 'Kuhusu maamuzi ya haraka...', o: {S:'Mara nyingine naenda na hisia', M:'Nachukua muda kupima hoja', P:'Nangoja hadi taarifa iwe ya kutosha', K:'Nafanya uamuzi papo hapo'} },
+      { t: 'Unapokasirishwa...', o: {S:'Najaribu kuchekesha ili nipunguze hasira', M:'Nafunga na kuandika niliyoyahisi', P:'Nabaki kimya hadi nitulie', K:'Natoa msimamo wangu waziwazi'} },
+      { t: 'Kuhusu kanuni...', o: {S:'Zinaweza kubadilika kwa ubunifu', M:'Ni muhimu kufuatwa kwa umakini', P:'Ni mwongozo wa jumla wa amani', K:'Ni zana ya kufanikisha malengo'} },
+      { t: 'Unapopokea kazi isiyoeleweka...', o: {S:'Naitumia kama nafasi ya kubuni', M:'Naomba maelekezo ya kina', P:'Naomba msaada wa pamoja', K:'Naibainisha na kuigawa vipande'} },
+      { t: 'Kuhusu ukamilifu...', o: {S:'Si lazima kila mara – bora iende', M:'Ni muhimu – napenda ubora', P:'Wastani unaokubalika ni sawa', K:'Ubora unaotakiwa kwa matokeo'} },
+      { t: 'Ukiwa shuleni/kazini...', o: {S:'Napenda makundi na mawasilisho', M:'Napenda utafiti/andiko la kina', P:'Napenda kazi za wasaidizi', K:'Napenda kuongoza mradi'} },
+      { t: 'Kuhusu msongo wa mawazo...', o: {S:'Natafuta watu/shughuli za kijamii', M:'Naratibu orodha na kupanga upya', P:'Nachukua mapumziko na kutafakari', K:'Najishughulisha zaidi kufanikisha'} },
+      { t: 'Kuhusu pesa ya ziada...', o: {S:'Naweza kuitumia kwenye uzoefu', M:'Naweka akiba/uwekezaji uliopangwa', P:'Naitumia kwa familia na mahitaji ya msingi', K:'Naielekeza kwenye mradi wenye faida'} },
+      { t: 'Kuhusu mentor ama kiongozi unayempenda...', o: {S:'Mwenye hamasa na mawasiliano mazuri', M:'Mwenye utaalamu na umakini', P:'Mwenye utu na subira', K:'Mwenye maono na uthubutu'} },
+      { t: 'Wakati wa kutatua migogoro...', o: {S:'Natumia maneno ya kuinua hali', M:'Nafanya uchambuzi wa hoja', P:'Nafanya upatanishi wa pande zote', K:'Nafikia uamuzi na utekelezaji'} },
+      { t: 'Kuhusu tabia ya kuchelewa...', o: {S:'Hutokea nikikosa msisimko', M:'Hutokea nikitafuta ukamilifu', P:'Hutokea nikiepuka migogoro', K:'Sichelewi – ninasukuma mambo'} },
+      { t: 'Kuhusu mazingira ya kazi unayopenda...', o: {S:'Yenye watu na ubunifu', M:'Yenye utaratibu na viwango', P:'Yenye utulivu na ushirikiano', K:'Yenye changamoto na malengo makubwa'} },
+      { t: 'Unapotakiwa kuwasilisha mbele ya watu...', o: {S:'Ninaongea kwa hadithi/hamasa', M:'Naja na takwimu/miundo', P:'Nasisitiza umoja na ushiriki', K:'Nasisitiza malengo na hatua'} },
+      { t: 'Kuhusu marafiki...', o: {S:'Wengi na wa aina mbalimbali', M:'Wachache wa karibu sana', P:'Nidadi ndogo lakini thabiti', K:'Mtandao wa kimkakati'} },
+      { t: 'Kuhusu teknolojia mpya...', o: {S:'Naipepeta kwa msisimko', M:'Naisoma kwanza kwa undani', P:'Nangoja ikae sawa kwa wote', K:'Naiona kama faida ya ushindani'} },
+      { t: 'Ukipewa uhuru kamili...', o: {S:'Natafuta miradi ya ubunifu', M:'Nafanya mradi wa ubora wa juu', P:'Nasaidia wengine wafanikiwe', K:'Naanzisha na kuongoza timu'} },
+      { t: 'Kuhusu kujishughulisha na jamii...', o: {S:'Matukio ya kijamii/mitandao', M:'Miradi ya maendeleo iliyopangiliwa', P:'Kusaidia kwa utulivu bila makelele', K:'Kuongoza kampeni/utaratibu'} },
+      { t: 'Tabia yako inapotiliwa shaka...', o: {S:'Najieleza kwa ucheshi na uwazi', M:'Nawasilisha ushahidi/hoja', P:'Natafuta kuelewana', K:'Nathibitisha msimamo wangu'} },
+      { t: 'Kuhusu mapumziko...', o: {S:'Shughuli za kijamii/ubunifu', M:'Kusoma/kuandika/kujipanga', P:'Kutulia/mazoezi mepesi/maumbile', K:'Michezo yenye ushindani/mafanikio'} },
+    ];
+
+    const DOM = {
+      qWrap: document.getElementById('questions'),
+      submit: document.getElementById('submit'),
+      reset: document.getElementById('reset'),
+      result: document.getElementById('result'),
+      bar: document.getElementById('bar'),
+      qCount: document.getElementById('q-count')
+    };
+
+    DOM.qCount.textContent = QUESTIONS.length;
+
+    function render(){
+      DOM.qWrap.innerHTML = '';
+      QUESTIONS.forEach((q, idx) => {
+        const el = document.createElement('div');
+        el.className = 'q';
+        const keys = Object.keys(q.o); // ['S','M','P','K'] (si lazima mpangilio maalum)
+        el.innerHTML = `
+          <h3>${idx+1}. ${q.t}</h3>
+          <div class="opts" role="group" aria-label="Chaguo">
+            ${keys.map(k=>{
+              const label = q.o[k];
+              return `<label class="opt" data-q="${idx}" data-v="${k}">
+                <input type="radio" name="q_${idx}" value="${k}">
+                <span><strong>${k}</strong>: ${label}</span>
+              </label>`
+            }).join('')}
+          </div>
+        `;
+        DOM.qWrap.appendChild(el);
+      });
+
+      DOM.qWrap.addEventListener('click', (e)=>{
+        const opt = e.target.closest('.opt');
+        if(!opt) return;
+        const qIndex = opt.getAttribute('data-q');
+        DOM.qWrap.querySelectorAll(`label.opt[data-q="${qIndex}"]`).forEach(n=>n.classList.remove('active'));
+        opt.classList.add('active');
+        const input = opt.querySelector('input');
+        input.checked = true;
+        updateProgress();
+      });
+
+      DOM.submit.addEventListener('click', onSubmit);
+      DOM.reset.addEventListener('click', resetAll);
+
+      updateProgress();
+    }
+
+    function answers(){
+      return Array.from({length: QUESTIONS.length}).map((_, idx)=>{
+        const checked = DOM.qWrap.querySelector(`input[name="q_${idx}"]:checked`);
+        return checked ? checked.value : null;
+      });
+    }
+
+    function updateProgress(){
+      const vals = answers();
+      const answered = vals.filter(v=>v!==null).length;
+      const pct = Math.round((answered/QUESTIONS.length)*100);
+      DOM.bar.style.width = pct+'%';
+      DOM.submit.disabled = answered !== QUESTIONS.length;
+    }
+
+    function onSubmit(){
+      const vals = answers();
+      if(vals.some(v=>v===null)) return;
+      const tally = {S:0,M:0,P:0,K:0};
+      vals.forEach(v=>tally[v]++);
+      const total = vals.length;
+      const pct = Object.fromEntries(Object.entries(tally).map(([k,v])=>[k, Math.round((v/total)*100)]));
+
+      // Dominant & secondary
+      const sorted = Object.entries(pct).sort((a,b)=>b[1]-a[1]);
+      const [domK, domPct] = sorted[0];
+      const [secK, secPct] = sorted[1];
+
+      const expl = {
+        S: 'Sangwini: Mchangamfu, msoci, mhamasishaji. Anapenda ubunifu, mawasiliano, matukio. Jihadhari na kuahirisha na mpangilio mdogo.',
+        M: 'Melankolia: Mtafakari, anayetafuta ubora, mpenda mpangilio. Anapenda takwimu na kanuni. Jihadhari na kujikosoa kupita kiasi na wasiwasi.',
+        P: 'Pragmatiki: Mtulivu, mvumilivu, mleta amani. Thabiti na mwaminifu. Jihadhari na kuchelewa kuamua na kuepuka migogoro.',
+        K: 'Kloriki: Mthubutu, kiongozi wa matokeo, mwenye maono. Hupenda kuchochea hatua. Jihadhari na ukali na kukosa subira.'
+      };
+
+      function typeName(k){
+        return k==='S'?'Sangwini':k==='M'?'Melankolia':k==='P'?'Pragmatiki':'Kloriki';
+      }
+
+      // Matokeo: jedwali la mabaa + maelezo
+      const rows = ['S','M','P','K'].map(k=>{
+        return `
+        <div class="row">
+          <div><strong>${typeName(k)}</strong></div>
+          <div class="barRow"><div class="barFill ${k}" style="width:${pct[k]}%"></div></div>
+          <div style="text-align:right">${pct[k]}%</div>
+        </div>`
+      }).join('');
+
+      const summary = `
+        <p><span class="pill">Aina inayoongoza: ${typeName(domK)} ${domPct}%</span> &nbsp; <span class="pill" style="background:#334155; color:#e5e7eb">Ya pili: ${typeName(secK)} ${secPct}%</span></p>
+        <p><strong>Maelezo ya aina yako:</strong> ${expl[domK]}</p>
+        <p><strong>Mchanganyiko wako (ya pili):</strong> ${expl[secK]}</p>
+        <p class="lead">Kumbuka: Hakuna mtu aliyepo 100% aina moja. Tumia nguvu za aina inayoongoza, huku ukirekebisha udhaifu wake kupitia tabia za aina nyingine.</p>
+        <p class="lead">Soma zaidi kwenye <a href="https://uhurusw.blogspot.com/" target="_blank" rel="noopener">Uhuru</a> kuhusu mawasiliano kati ya tabia tofauti na uteuzi wa kazi.</p>
+      `;
+
+      DOM.result.style.display = 'block';
+      DOM.result.innerHTML = `<h2>Matokeo Yako</h2>${rows}${summary}`;
+      DOM.result.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    function resetAll(){
+      document.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);
+      document.querySelectorAll('.opt').forEach(o=>o.classList.remove('active'));
+      DOM.result.style.display='none';
+      DOM.result.innerHTML='';
+      updateProgress();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    // Render on load
+    render();
+  </script></body>
+</html>
