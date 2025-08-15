@@ -1,75 +1,21 @@
-<!DOCTYPE html>
-<html lang="sw">
+<!DOCTYPE html><html lang="sw">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Je, akili yako ni ya mjasiriamali au mfanyakazi?</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-    header {
-      text-align: center;
-      padding: 20px;
-      background-color: #2d3748;
-      color: #fff;
-    }
-    header img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
-    main {
-      max-width: 800px;
-      margin: 20px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    h1 {
-      margin-bottom: 10px;
-    }
-    p.intro {
-      font-size: 1.1em;
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-    .question {
-      margin-bottom: 15px;
-    }
-    .question h3 {
-      margin-bottom: 8px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      cursor: pointer;
-    }
-    button {
-      background-color: #2d3748;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-    button:hover {
-      background-color: #4a5568;
-    }
-    #result {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 8px;
-      background: #edf2f7;
-      font-size: 1.1em;
-    }
+    body {font-family: Arial, sans-serif;background-color: #f4f4f4;margin: 0;padding: 0;color: #333;}
+    header {text-align: center;padding: 20px;background-color: #2d3748;color: #fff;}
+    header img {max-width: 100%;height: auto;border-radius: 8px;margin-bottom: 15px;}
+    main {max-width: 800px;margin: 20px auto;background: #fff;padding: 20px;border-radius: 10px;box-shadow: 0 4px 8px rgba(0,0,0,0.1);}
+    h1 {margin-bottom: 10px;}
+    p.intro {font-size: 1.1em;margin-bottom: 20px;line-height: 1.6;}
+    .question {margin-bottom: 15px;}
+    .question h3 {margin-bottom: 8px;}
+    label {display: block;margin-bottom: 5px;cursor: pointer;}
+    button {background-color: #2d3748;color: white;padding: 10px 20px;border: none;border-radius: 5px;cursor: pointer;margin-top: 20px;}
+    button:hover {background-color: #4a5568;}
+    #result {margin-top: 20px;padding: 15px;border-radius: 8px;background: #edf2f7;font-size: 1.1em;}
   </style>
 </head>
 <body>
@@ -78,45 +24,37 @@
     <h1>Je, akili yako ni ya mjasiriamali au mfanyakazi?</h1>
   </header>
   <main>
-    <p class="intro">Kila mtu ana njia yake ya kufikiria na kuangalia maisha. Wengine hupenda kuchukua hatari, kubuni, na kuongoza — hawa mara nyingi ni wajasiriamali. Wengine huthamini uthabiti, mpangilio, na kazi iliyo na majukumu yaliyo wazi — hawa mara nyingi ni wafanyakazi. Jaribio hili litakusaidia kuelewa jinsi akili yako inavyofanya kazi na kukupa ushauri wa jinsi ya kutumia nguvu zako ipasavyo.</p>
+    <p class="intro">Wengine hupenda kuchukua hatari, kubuni, na kuongoza — hawa mara nyingi ni wajasiriamali. Wengine huthamini uthabiti, mpangilio, na kazi iliyo na majukumu yaliyo wazi — hawa mara nyingi ni wafanyakazi. Jaribio hili litakusaidia kuelewa jinsi akili yako inavyofanya kazi na kukupa ushauri wa jinsi ya kutumia nguvu zako ipasavyo.</p>
     <form id="quizForm">
-      <div class="question">
-        <h3>1. Unapokutana na tatizo jipya, mara nyingi...</h3>
-        <label><input type="radio" name="q1" value="E"> Unatafuta suluhisho lililopo na unalitekeleza</label>
-        <label><input type="radio" name="q1" value="M"> Unabuni njia mpya ya kulitatua</label>
-      </div>
-      <div class="question">
-        <h3>2. Kuhusu hatari...</h3>
-        <label><input type="radio" name="q2" value="E"> Napenda kucheza salama</label>
-        <label><input type="radio" name="q2" value="M"> Niko tayari kuhatarisha kwa faida kubwa</label>
-      </div>
-      <div class="question">
-        <h3>3. Kuhusu uhuru kazini...</h3>
-        <label><input type="radio" name="q3" value="E"> Napenda maagizo na miongozo wazi</label>
-        <label><input type="radio" name="q3" value="M"> Napenda kufanya maamuzi yangu mwenyewe</label>
-      </div>
-      <!-- Ongeza maswali zaidi kadri inavyohitajika -->
+      <div class="question"><h3>1. Unapokutana na tatizo jipya...</h3><label><input type="radio" name="q1" value="E"> Tafuta suluhisho lililopo</label><label><input type="radio" name="q1" value="M"> Buni njia mpya</label></div>
+      <div class="question"><h3>2. Kuhusu hatari...</h3><label><input type="radio" name="q2" value="E"> Cheza salama</label><label><input type="radio" name="q2" value="M"> Chukua hatari kubwa</label></div>
+      <div class="question"><h3>3. Uhuru kazini...</h3><label><input type="radio" name="q3" value="E"> Napenda maagizo wazi</label><label><input type="radio" name="q3" value="M"> Napenda kufanya maamuzi</label></div>
+      <div class="question"><h3>4. Ukipewa mradi mpya...</h3><label><input type="radio" name="q4" value="E"> Fuata taratibu zilizowekwa</label><label><input type="radio" name="q4" value="M"> Tafuta njia za kuboresha</label></div>
+      <div class="question"><h3>5. Kuhusu mapato...</h3><label><input type="radio" name="q5" value="E"> Napenda mshahara wa uhakika</label><label><input type="radio" name="q5" value="M"> Napenda mapato yasiyo na kikomo</label></div>
+      <div class="question"><h3>6. Wakati wa kufanya maamuzi...</h3><label><input type="radio" name="q6" value="E"> Subiri idhini ya wakubwa</label><label><input type="radio" name="q6" value="M"> Fanya uamuzi mwenyewe</label></div>
+      <div class="question"><h3>7. Changamoto kazini...</h3><label><input type="radio" name="q7" value="E"> Hufanya kilichothibitishwa</label><label><input type="radio" name="q7" value="M"> Jaribu mbinu mpya</label></div>
+      <div class="question"><h3>8. Kuhusu malengo...</h3><label><input type="radio" name="q8" value="E"> Fuata malengo yaliyowekwa</label><label><input type="radio" name="q8" value="M"> Weka malengo yako</label></div>
+      <div class="question"><h3>9. Kuhusu ratiba...</h3><label><input type="radio" name="q9" value="E"> Fuata ratiba thabiti</label><label><input type="radio" name="q9" value="M"> Badilisha kulingana na fursa</label></div>
+      <div class="question"><h3>10. Kuhusu kubadilika...</h3><label><input type="radio" name="q10" value="E"> Napenda mambo yaliyo thabiti</label><label><input type="radio" name="q10" value="M"> Niko tayari kubadilika</label></div>
       <button type="button" onclick="calculateResult()">Pata Matokeo</button>
     </form>
     <div id="result"></div>
   </main>
   <script>
     function calculateResult() {
-      const form = document.getElementById('quizForm');
-      const formData = new FormData(form);
-      let mCount = 0;
-      let eCount = 0;
+      const formData = new FormData(document.getElementById('quizForm'));
+      let mCount = 0, eCount = 0;
       for (let value of formData.values()) {
         if (value === 'M') mCount++;
         else if (value === 'E') eCount++;
       }
       let resultText = '';
       if (mCount > eCount) {
-        resultText = 'Akili yako ina mwelekeo wa mjasiriamali! Una uwezo mkubwa wa kubuni, kuchukua hatari, na kuanzisha miradi mipya.';
+        resultText = 'Una akili ya mjasiriamali! Una ubunifu, uthubutu na unaona fursa kila mahali.';
       } else if (eCount > mCount) {
-        resultText = 'Akili yako ina mwelekeo wa mfanyakazi! Unapenda uthabiti, mipango wazi, na kazi iliyo na muundo thabiti.';
+        resultText = 'Una akili ya mfanyakazi! Unathamini uthabiti na uwajibikaji katika mfumo uliopo.';
       } else {
-        resultText = 'Una mchanganyiko wa akili ya mjasiriamali na mfanyakazi — unaweza kubadilika kulingana na mazingira.';
+        resultText = 'Una mchanganyiko wa akili za aina zote mbili — unabadilika kulingana na mazingira.';
       }
       document.getElementById('result').innerText = resultText;
     }
