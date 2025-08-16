@@ -1,9 +1,7 @@
-const CACHE_NAME = "my-site-cache-v1";
+const CACHE_NAME = "jitambue-cache-v1";
 const urlsToCache = [
   "/",
-  "/index.html",
-  "/style.css",
-  "/script.js"
+  "/index.html"
 ];
 
 // Install service worker
