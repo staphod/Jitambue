@@ -8,128 +8,63 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" href="favicon.png" sizes="32x32">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <title>Uhuru -Jitambue </title>
+  <title>Uhuru - Jitambue</title>
+
+  <!-- Styles here -->
   <style>
-    body {
-      font-family: system-ui, sans-serif;
-      background: linear-gradient(180deg, #0b1220, #0f172a);
-      color: #e5e7eb;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background: #22c55e; /* green */
-      padding: 20px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-      color: #ffffff;
-    }
-    header p {
-      margin-top: 6px;
-      color: #f0fdf4;
-      font-size: 1rem;
-    }
-
-    main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    section {
-      margin-bottom: 40px;
-    }
-    .section-title {
-      font-size: 1.5rem;
-      margin-bottom: 16px;
-      color: #22c55e;
-    }
-    .section-desc {
-      font-size: 1rem;
-      color: #9ca3af;
-      margin-bottom: 20px;
-    }
-
-    .quiz-list {
-      display: grid;
-      gap: 16px;
-    }
-    .quiz-card {
-      background: #111827;
-      border: 1px solid #1f2937;
-      border-radius: 12px;
-      padding: 16px;
-      transition: transform 0.1s ease;
-    }
-    .quiz-card:hover {
-      transform: translateY(-2px);
-    }
-    .quiz-card h2 {
-      margin: 0 0 8px;
-      font-size: 1.2rem;
-    }
-    .quiz-card p {
-      color: #9ca3af;
-      margin: 0 0 12px;
-    }
-    .quiz-card a {
-      background: #22c55e;
-      color: #052e12;
-      padding: 10px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .hero-img {
-      width: 100%;
-      max-height: 400px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      background: #1e3a8a; /* new footer color */
-      color: #f0fdf4;
-      padding: 40px 20px 20px 20px;
-      font-size: 0.95rem;
-      border-top: 1px solid #111827;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .footer-content {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-    .footer-content a img {
-      width: 32px;
-      height: 32px;
-      filter: invert(1); /* white icons */
-      transition: transform 0.2s;
-    }
-    .footer-content a img:hover {
-      transform: scale(1.2);
-    }
-    footer p {
-      text-align: center;
-      margin: 0;
-    }
+    /* Keep your existing CSS */
+    body { font-family: system-ui, sans-serif; background: linear-gradient(180deg, #0b1220, #0f172a); color: #e5e7eb; margin:0; padding:0; }
+    header { background:#22c55e; padding:20px; text-align:center; }
+    header h1 { margin:0; font-size:2rem; color:#fff; }
+    header p { margin-top:6px; color:#f0fdf4; font-size:1rem; }
+    main { max-width:900px; margin:0 auto; padding:20px; }
+    section { margin-bottom:40px; }
+    .section-title { font-size:1.5rem; margin-bottom:16px; color:#22c55e; }
+    .section-desc { font-size:1rem; color:#9ca3af; margin-bottom:20px; }
+    .quiz-list { display:grid; gap:16px; }
+    .quiz-card { background:#111827; border:1px solid #1f2937; border-radius:12px; padding:16px; transition: transform 0.1s ease; }
+    .quiz-card:hover { transform: translateY(-2px); }
+    .quiz-card h2 { margin:0 0 8px; font-size:1.2rem; }
+    .quiz-card p { color:#9ca3af; margin:0 0 12px; }
+    .quiz-card a { background:#22c55e; color:#052e12; padding:10px 16px; border-radius:8px; text-decoration:none; font-weight:bold; }
+    .hero-img { width:100%; max-height:400px; object-fit:cover; border-radius:12px; margin-bottom:20px; }
+    footer { background:#1e3a8a; color:#f0fdf4; padding:40px 20px 20px 20px; font-size:0.95rem; border-top:1px solid #111827; display:flex; flex-direction:column; align-items:center; }
+    .footer-content { display:flex; justify-content:center; gap:20px; margin-bottom:20px; }
+    .footer-content a img { width:32px; height:32px; filter:invert(1); transition: transform 0.2s; }
+    .footer-content a img:hover { transform: scale(1.2); }
+    footer p { text-align:center; margin:0; }
   </style>
+
+  <!-- Firebase SDK via script tags -->
+  <script src="https://www.gstatic.com/firebasejs/12.1.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.1.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
+
 <script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/service-worker.js")
-      .then(reg => console.log("Service worker registered.", reg))
-      .catch(err => console.log("Service worker not registered.", err));
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log('Service worker registered.', reg))
+      .catch(err => console.log('Service worker not registered.', err));
   }
+
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDiKnEpbs98ICakkLYVKx_zWbxyP54NYYI",
+    authDomain: "jitambueblog.firebaseapp.com",
+    projectId: "jitambueblog",
+    storageBucket: "jitambueblog.appspot.com",
+    messagingSenderId: "1093423111445",
+    appId: "1:1093423111445:web:70cdac875f8ac25f409d1c",
+    measurementId: "G-RDQNSETX8N"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 </script>
 
 <header>
@@ -138,32 +73,6 @@
 </header>
 
 <main>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyDiKnEpbs98ICakkLYVKx_zWbxyP54NYYI",
-    authDomain: "jitambueblog.firebaseapp.com",
-    projectId: "jitambueblog",
-    storageBucket: "jitambueblog.firebasestorage.app",
-    messagingSenderId: "1093423111445",
-    appId: "1:1093423111445:web:70cdac875f8ac25f409d1c",
-    measurementId: "G-RDQNSETX8N"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-</script>
-
   <!-- Hero Section -->
   <section id="hero">
     <img src="https://images.pexels.com/photos/3184300/pexels-photo-3184300.jpeg" alt="Psychology Learning" class="hero-img">
@@ -184,42 +93,75 @@
     <h2 class="section-title">Majaribio ya Kujitambua</h2>
     <p class="section-desc">Chagua jaribio la kujitambua na ujue zaidi kuhusu nafsi yako:</p>
     <div class="quiz-list">
-      <div class="quiz-card">
-        <h2>Mazoezi Yote.</h2>
-        <p>Nenda kwenye ukurasa huu ili upate orodha ya majaribio yote.</p>
-        <a href="Jitambue.html"> Tafuta Linalokufaa</a>
+      <!-- Keep your quiz cards here -->
+    </div>
+  </section>
 
-<h2> AU ANZA NA HAYA</h2>
-      </div>
-      <div class="quiz-card">
-        <h2>Jaribio la Uelewa wa Hisia (EQ) – Fupi</h2>
-        <p>Pima uwezo wako wa kutambua, kudhibiti na kutumia hisia zako na za wengine.</p>
-        <a href="https://staphod.github.io/Jitambue/eq-fupi.html">Anza Jaribio</a>
-      </div>
-      <div class="quiz-card">
-        <h2>Je wewe ni mraibu wa punyeto na video za ngono kwa asilimia ngapi?</h2>
-        <p>Je unasumbuliwa na video za ngono na punyeto? Jipime hapa ujue kiasi cha uathirika ulio nao .</p>
-        <a href="https://staphod.github.io/Jitambue/Uraibungono.html">Anza Jaribio</a>
-      </div>
-      <div class="quiz-card">
-        <h2>Wewe ni mtu wa aina gani kati ya tabia kuu nne?</h2>
-        <p>Je wewe ni Sangwini, Melankolia, Pragmatiki, au Kloriki?.</p>
-        <a href="https://staphod.github.io/Jitambue/sanguine.html">Anza Jaribio</a>
-      </div>
-      <div class="quiz-card">
-        <h2>Je, wewe una akili ya mjasiriamali au mfanyakazi?</h2>
-        <p> Tambua kama wewe una akili iliyo ya kijasiriamali sana au akili ya ufanyakazi </p>
-        <a href="https://staphod.github.io/Jitambue/ujasiriamali.html">Anza Jaribio</a>
-      </div>
-      <div class="quiz-card">
-        <h2>Je, wewe ni aina gani? — 30 Maswali </h2>
-        <p>chaguzio fupi la tabia nne: Sangwini, Melankolia, Pragmatiki, Kloriki. Maswali 30.</p>
-        <a href="https://staphod.github.io/Jitambue/sanguinea.html">Anza Jaribio</a>
-      </div>
-  <div class="quiz-card">
-        <h2>Je halipo Linalokufaa?</h2>
-        <p>Nenda kwenye ukurasa huu ili upate orodha ya majaribio yote.</p>
-        <a href="Jitambue.html"> Tafuta Linalokufaa</a>
+  <!-- Login & Post Section (Firebase Example) -->
+  <section id="blog" style="margin-top:40px;">
+    <h2 class="section-title">Jumlisha Chapisho Lako</h2>
+    <div id="auth-section">
+      <input type="email" id="email" placeholder="Barua pepe">
+      <input type="password" id="password" placeholder="Neno siri">
+      <button id="signup">Jisajili</button>
+      <button id="login">Ingia</button>
+    </div>
+
+    <div id="post-section" style="display:none; margin-top:20px;">
+      <textarea id="postContent" placeholder="Andika chapisho lako..." rows="4" style="width:100%;"></textarea>
+      <button id="submitPost">Tuma Chapisho</button>
+      <div id="posts" style="margin-top:20px;"></div>
+    </div>
+  </section>
+
+  <script>
+    // Handle login/signup UI
+    auth.onAuthStateChanged(user => {
+      if(user){
+        document.getElementById('auth-section').style.display='none';
+        document.getElementById('post-section').style.display='block';
+      } else {
+        document.getElementById('auth-section').style.display='block';
+        document.getElementById('post-section').style.display='none';
+      }
+    });
+
+    document.getElementById('signup').onclick = () => {
+      const email=document.getElementById('email').value;
+      const password=document.getElementById('password').value;
+      auth.createUserWithEmailAndPassword(email,password)
+        .then(()=>alert('Umejisajili kwa mafanikio!'))
+        .catch(err=>alert(err.message));
+    };
+
+    document.getElementById('login').onclick = () => {
+      const email=document.getElementById('email').value;
+      const password=document.getElementById('password').value;
+      auth.signInWithEmailAndPassword(email,password)
+        .then(()=>alert('Umeingia kwa mafanikio!'))
+        .catch(err=>alert(err.message));
+    };
+
+    // Submit post
+    document.getElementById('submitPost').onclick = () => {
+      const content=document.getElementById('postContent').value;
+      db.collection('posts').add({
+        content: content,
+        author: auth.currentUser.email,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(()=>document.getElementById('postContent').value='');
+    };
+
+    // Display posts
+    db.collection('posts').orderBy('timestamp','desc').onSnapshot(snapshot=>{
+      const postsDiv=document.getElementById('posts');
+      postsDiv.innerHTML='';
+      snapshot.forEach(doc=>{
+        const data=doc.data();
+        postsDiv.innerHTML+=`<p><strong>${data.author}</strong>: ${data.content}</p>`;
+      });
+    });
+  </script>
 
 </main>
 
@@ -230,7 +172,7 @@
     <a href="https://instagram.com" target="_blank"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram"></a>
     <a href="https://linkedin.com" target="_blank"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn"></a>
   </div>
-  <p>&copy; 2025 Uhuru – Saikolojia na Majaribio ya Kisaikolojia kwa Kiswahili</p>
+    <p>&copy; 2025 Uhuru – Saikolojia na Majaribio ya Kisaikolojia kwa Kiswahili</p>
 </footer>
 
 </body>
