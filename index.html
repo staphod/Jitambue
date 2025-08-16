@@ -138,6 +138,32 @@
 </header>
 
 <main>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDiKnEpbs98ICakkLYVKx_zWbxyP54NYYI",
+    authDomain: "jitambueblog.firebaseapp.com",
+    projectId: "jitambueblog",
+    storageBucket: "jitambueblog.firebasestorage.app",
+    messagingSenderId: "1093423111445",
+    appId: "1:1093423111445:web:70cdac875f8ac25f409d1c",
+    measurementId: "G-RDQNSETX8N"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+</script>
+
   <!-- Hero Section -->
   <section id="hero">
     <img src="https://images.pexels.com/photos/3184300/pexels-photo-3184300.jpeg" alt="Psychology Learning" class="hero-img">
